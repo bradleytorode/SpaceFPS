@@ -27,6 +27,8 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USkeletalMeshComponent* Weapon;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float Health;
 
 protected:
 	// Called when the game starts or when spawned

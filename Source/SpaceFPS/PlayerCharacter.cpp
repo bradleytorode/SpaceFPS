@@ -42,6 +42,8 @@ APlayerCharacter::APlayerCharacter()
 	//Weapon->SetupAttachment("PlayerHandSocket");
 
 
+
+
 }
 
 // Called when the game starts or when spawned
