@@ -38,6 +38,8 @@ protected:
 	
 	void MoveRight(float val);
 
+	void Pickup();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

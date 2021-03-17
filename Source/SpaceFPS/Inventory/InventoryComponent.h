@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ItemBase.h"
+#include "Weapons/WeaponBase.h"
 #include "InventoryComponent.generated.h"
+
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -35,15 +37,19 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	virtual void AddItem();
+	bool AddItem(AItemBase* ItemToAdd);
 
-	virtual void DropItem();
+	bool AddNonStackableItem(AItemBase* ItemToAdd);
 
-	virtual void RemoveFromStack();
+	bool AddStackableItem(AItemBase* ItemToAdd);
+	
+	bool AddWeapon(AWeaponBase* WeaponToAdd);
 
-	virtual void IncreaseCapacity();
+	void DropItem(int foundKey);
 
-	int CheckItemIndex();
+	void RemoveFromStack(AItemBase* ItemToRemove, int AmountToRemove);
+
+	void IncreaseCapacity();
 
 public:	
 	// Called every frame
