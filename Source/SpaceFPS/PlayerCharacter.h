@@ -21,6 +21,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		class UCameraComponent* CameraComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		class USpringArmComponent* SpringArm;
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USkeletalMeshComponent* PlayerMesh;
 
@@ -37,6 +40,8 @@ protected:
 	void MoveForward(float val);
 	
 	void MoveRight(float val);
+
+	void Interact();
 
 	void PickupItem();
 

@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -19,16 +20,21 @@ APlayerCharacter::APlayerCharacter()
 	//Set Collision Component size
 	GetCapsuleComponent()->InitCapsuleSize(55.0f, 90.0f);
 
+	//Setting up Spring Arm
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArm->SetupAttachment(GetCapsuleComponent());
+
 	//Create the Camera
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
-	CameraComponent->SetupAttachment(GetCapsuleComponent());
-	CameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f));
+	CameraComponent->SetupAttachment(SpringArm);
 	CameraComponent->bUsePawnControlRotation = true;
+
+
 
 	//Setting up a skeletal mesh for arms which will be implemented later
 	PlayerMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PlayerMesh"));
+	PlayerMesh->SetupAttachment(RootComponent);
 	PlayerMesh->SetOnlyOwnerSee(true);
-	PlayerMesh->SetupAttachment(CameraComponent);
 	PlayerMesh->bCastDynamicShadow = false;
 	PlayerMesh->CastShadow = false;
 	//PlayerMesh->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
@@ -70,13 +76,15 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	//Bind Jump event
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerCharacter::Interact);
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerCharacter::PickupItem);
 	
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 
-	PlayerInputComponent->BindAxis("LookUp", this, &ACharacter::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("Turn", this, &ACharacter::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 }
 
 void APlayerCharacter::MoveForward(float val)
@@ -95,4 +103,14 @@ void APlayerCharacter::MoveRight(float val)
 		// add movement left/right direction
 		AddMovementInput(GetActorRightVector(), val);
 	}
+}
+
+void APlayerCharacter::Interact()
+{
+
+}
+
+void APlayerCharacter::PickupItem()
+{
+
 }
