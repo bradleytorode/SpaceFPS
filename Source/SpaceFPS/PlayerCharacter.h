@@ -38,7 +38,7 @@ protected:
 	
 	void MoveRight(float val);
 
-	void Pickup();
+	void PickupItem();
 
 public:	
 	// Called every frame
