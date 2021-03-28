@@ -37,6 +37,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable)
 	bool AddItem(AItemBase* ItemToAdd);
 
 	bool AddNonStackableItem(AItemBase* ItemToAdd);

@@ -2,13 +2,7 @@
 
 
 #include "PlayerCharacter.h"
-#include "Camera/CameraComponent.h"
-#include "Components/CapsuleComponent.h"
-#include "Components/InputComponent.h"
-#include "GameFramework/InputSettings.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
-#include "Kismet/GameplayStatics.h"
+
 
 
 // Sets default values
@@ -21,25 +15,22 @@ APlayerCharacter::APlayerCharacter()
 	GetCapsuleComponent()->InitCapsuleSize(55.0f, 90.0f);
 
 	//Setting up Spring Arm
-	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
-	SpringArm->SetupAttachment(GetCapsuleComponent());
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
+	SpringArm->SetupAttachment(RootComponent);
 
 	//Create the Camera
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdPersonCamera"));
 	CameraComponent->SetupAttachment(SpringArm);
-	CameraComponent->bUsePawnControlRotation = true;
-
-
 
 	//Setting up a skeletal mesh for arms which will be implemented later
 	PlayerMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PlayerMesh"));
 	PlayerMesh->SetupAttachment(RootComponent);
-	PlayerMesh->SetOnlyOwnerSee(true);
-	PlayerMesh->bCastDynamicShadow = false;
-	PlayerMesh->CastShadow = false;
-	//PlayerMesh->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
-	//PlayerMesh->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
 
+	//Setting default turn and lookup rates
+	BaseTurnRate = 45.0f;
+	BaseLookUpRate = 45.0f;
+	
+	
 	//Setting up a skeletal mesh for a weapon implemented later on.
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
 	Weapon->SetOnlyOwnerSee(true);	// only the owning player will see this mesh
@@ -47,8 +38,7 @@ APlayerCharacter::APlayerCharacter()
 	Weapon->CastShadow = false;
 	//Weapon->SetupAttachment("PlayerHandSocket");
 
-
-
+	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 
 }
 
@@ -85,24 +75,45 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+
+	PlayerInputComponent->BindAxis("TurnRate", this, &APlayerCharacter::TurnAtRate);
+	PlayerInputComponent->BindAxis("LookUpRate", this, &APlayerCharacter::LookUpAtRate);
+
 }
 
-void APlayerCharacter::MoveForward(float val)
+void APlayerCharacter::MoveForward(float Value)
 {
-	if (val != 0.0f)
+	if ((Controller) && (Value != 0.0f))
 	{
-		// add movement in forward/backward direction
-		AddMovementInput(GetActorForwardVector(), val);
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		AddMovementInput(Direction, Value);
+
 	}
 }
 
-void APlayerCharacter::MoveRight(float val)
+void APlayerCharacter::MoveRight(float Value)
 {
-	if (val != 0.0f)
+	if ((Controller) && (Value != 0.0f))
 	{
-		// add movement left/right direction
-		AddMovementInput(GetActorRightVector(), val);
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		AddMovementInput(Direction, Value);
 	}
+}
+
+void APlayerCharacter::TurnAtRate(float Value)
+{
+	AddControllerYawInput(Value * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+}
+
+void APlayerCharacter::LookUpAtRate(float Value)
+{
+	AddControllerPitchInput(Value * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 void APlayerCharacter::Interact()
@@ -112,5 +123,5 @@ void APlayerCharacter::Interact()
 
 void APlayerCharacter::PickupItem()
 {
-
+	//GetCapsuleComponent()->BeginComponentOverlap(OverlapInfo,
 }

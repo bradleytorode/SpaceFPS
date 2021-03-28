@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine/DataTable.h"
+#include "Components/SphereComponent.h"
 #include "ItemBase.generated.h"
 
 
@@ -14,13 +15,6 @@ struct FItemData:public FTableRowBase {
 	GENERATED_USTRUCT_BODY()
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-		class UStaticMeshComponent* ItemMesh;
-
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-		class UTexture2D* ItemIcon;
-
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 		int32 ItemID;
@@ -28,6 +22,13 @@ struct FItemData:public FTableRowBase {
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 		FText Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	UStaticMeshComponent* ItemMesh;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	class UTexture2D* ItemIcon;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
@@ -61,7 +62,13 @@ public:
 	AItemBase();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	UStaticMeshComponent* Mesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	FItemData ItemDetails;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	USphereComponent* ItemCollision;
 
 
 	

@@ -30,6 +30,10 @@ class SPACEFPS_API AConsumableBase : public AItemBase
 public:
 
 
+	//Selected ENum
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Consume")
+	TEnumAsByte<EConsumableType> ConsumableType;
+
 	//value that will be used dependent on the case and switch in the Use function
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Consume")
 	int ConsumeModifier;

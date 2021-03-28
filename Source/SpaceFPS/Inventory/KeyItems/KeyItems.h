@@ -15,8 +15,6 @@ class SPACEFPS_API AKeyItems : public AItemBase
 	GENERATED_BODY()
 
 	
-	
-		
 	virtual void Drop() override;
 	
 };

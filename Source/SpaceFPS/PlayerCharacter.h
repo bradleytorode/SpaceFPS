@@ -4,9 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/InputComponent.h"
+#include "GameFramework/InputSettings.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
+#include "Inventory/InventoryComponent.h"
+#include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
+#include "Containers/Array.h"
 #include "PlayerCharacter.generated.h"
 
-class UInputComponent;
 
 UCLASS()
 class SPACEFPS_API APlayerCharacter : public ACharacter
@@ -19,28 +28,44 @@ public:
 
 	//The Camera component the player will see.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-		class UCameraComponent* CameraComponent;
+		 UCameraComponent* CameraComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-		class USpringArmComponent* SpringArm;
+		 USpringArmComponent* SpringArm;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class USkeletalMeshComponent* PlayerMesh;
+	UPROPERTY(VisibleAnywhere, Category = Mesh)
+		 USkeletalMeshComponent* PlayerMesh;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class USkeletalMeshComponent* Weapon;
+	UPROPERTY(VisibleAnywhere, Category = Mesh)
+		 USkeletalMeshComponent* Weapon;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
+		 UInventoryComponent* Inventory;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TArray<AItemBase*> ItemsInRange;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void MoveForward(float val);
-	
-	void MoveRight(float val);
+	//Movement Functions
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void TurnAtRate(float Value);
+	void LookUpAtRate(float Value);
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera")
+		float BaseTurnRate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Camera")
+		float BaseLookUpRate;
+
+	//Inventroy Functions
 	void Interact();
 
 	void PickupItem();
