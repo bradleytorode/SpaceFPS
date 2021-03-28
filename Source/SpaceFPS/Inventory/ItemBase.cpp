@@ -13,9 +13,9 @@ AItemBase::AItemBase()
 	SetRootComponent(Mesh);
 	
 
-	ItemCollision = CreateDefaultSubobject<USphereComponent>(TEXT("InteractSphere"));
-	ItemCollision->SetRelativeScale3D(FVector(3.f));
-	ItemCollision->SetupAttachment(Mesh);
+	//ItemCollision = CreateDefaultSubobject<USphereComponent>(TEXT("InteractSphere"));
+	//ItemCollision->SetRelativeScale3D(FVector(3.f));
+	//ItemCollision->SetupAttachment(Mesh);
 
 
 }
