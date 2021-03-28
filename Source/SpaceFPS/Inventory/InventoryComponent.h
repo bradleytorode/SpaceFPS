@@ -21,34 +21,34 @@ public:
 
 	//Using a map to move items around freely without having to shift the entire array.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
-	TMap<int, AItemBase*> Items;
+	TMap<int, struct FItemData> Items;
 
 	//Change to weapons when creating the weapons
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon Slots")
-	TMap<int, AItemBase*> WeaponSlots;
+	TMap<int, AWeaponBase*> WeaponSlots;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Inventory")
 	int32 capacity = 8;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Quest Items")
-	TMap<int, AItemBase*> KeyItems;
+	TMap<int, struct FItemData> KeyItems;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	bool AddItem(AItemBase* ItemToAdd);
+	bool AddItem(FItemData ItemToAdd);
 
-	bool AddNonStackableItem(AItemBase* ItemToAdd);
+	bool AddNonStackableItem(FItemData ItemToAdd);
 
-	bool AddStackableItem(AItemBase* ItemToAdd);
+	bool AddStackableItem(FItemData ItemToAdd);
 	
 	bool AddWeapon(AWeaponBase* WeaponToAdd);
 
 	void DropItem(int foundKey);
 
-	void RemoveFromStack(AItemBase* ItemToRemove, int AmountToRemove);
+	void RemoveFromStack(FItemData ItemToRemove, int AmountToRemove);
 
 	void IncreaseCapacity();
 

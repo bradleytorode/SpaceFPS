@@ -16,7 +16,6 @@ enum EConsumableType
 	DamageResistance	UMETA(DisplayName = "Resistance"),
 	Movement			UMETA(DisplayName = "Movespeed"),
 	HealAndSpeed		UMETA(DisplayName = "Health and Speed")
-
 };
 
 /**

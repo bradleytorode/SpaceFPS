@@ -17,7 +17,7 @@ struct FItemData:public FTableRowBase {
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-		int32 ItemID;
+		int32 ItemID = -1;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")

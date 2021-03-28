@@ -13,10 +13,10 @@ UInventoryComponent::UInventoryComponent()
 	//Initialise inventory slots
 	for (int i = 0; i < capacity; i++)
 	{
-		Items.Add(i, NULL);
+		Items.Add(i, FItemData());
 	}
 
-
+	//Initialise weapon slots
 	for (int i = 0; i < 4; i++)
 	{
 		WeaponSlots.Add(i, NULL);
@@ -36,9 +36,9 @@ void UInventoryComponent::BeginPlay()
 }
 
 //Inventory checking if the item is stackable or non stackable through the addItem function.
-bool UInventoryComponent::AddItem(AItemBase* ItemToAdd)
+bool UInventoryComponent::AddItem(FItemData ItemToAdd)
 {
-		if (ItemToAdd->ItemDetails.MaxStackSize == 1)
+		if (ItemToAdd.MaxStackSize == 1)
 		{
 			//If function returns false, this will be unavailable.
 			return AddNonStackableItem(ItemToAdd);
@@ -53,13 +53,14 @@ bool UInventoryComponent::AddItem(AItemBase* ItemToAdd)
 }
 
 //
-bool UInventoryComponent::AddNonStackableItem(AItemBase* ItemToAdd)
+bool UInventoryComponent::AddNonStackableItem(FItemData ItemToAdd)
 {
 	bool bMapKeyFree = false;
 
+	//Checks for a slot that is free in the inventory. If slot is free add item. Otherwise break.
 	for (int i = 0; i < Items.Num(); i++)
 	{
-		if (Items[i] == NULL) {
+		if (Items[i].ItemID == -1) {
 			Items[i] = ItemToAdd;
 			bMapKeyFree = true;
 			break;
@@ -72,7 +73,7 @@ bool UInventoryComponent::AddNonStackableItem(AItemBase* ItemToAdd)
 
 
 //
-bool UInventoryComponent::AddStackableItem(AItemBase* ItemToAdd)
+bool UInventoryComponent::AddStackableItem(FItemData ItemToAdd)
 {
 
 	bool bMapKeyFree = false;
@@ -82,25 +83,26 @@ bool UInventoryComponent::AddStackableItem(AItemBase* ItemToAdd)
 
 	for (int i = 0; i < Items.Num(); i++)
 	{
-		if (ItemToAdd == Items[i] && Items[i]->ItemDetails.CurrentStackSize < Items[i]->ItemDetails.MaxStackSize)
+		if (ItemToAdd.ItemID == Items[i].ItemID && Items[i].CurrentStackSize < Items[i].MaxStackSize)
 		{
-			if (Items[i]->ItemDetails.CurrentStackSize + ItemToAdd->ItemDetails.CurrentStackSize > Items[i]->ItemDetails.MaxStackSize) {
-				Items[i]->ItemDetails.CurrentStackSize = Items[i]->ItemDetails.MaxStackSize;
-				ItemToAdd->ItemDetails.CurrentStackSize -= Items[i]->ItemDetails.MaxStackSize - Items[i]->ItemDetails.CurrentStackSize;
+			if (Items[i].CurrentStackSize + ItemToAdd.CurrentStackSize > Items[i].MaxStackSize) {
+				ItemToAdd.CurrentStackSize -= Items[i].MaxStackSize - Items[i].CurrentStackSize;
+				Items[i].CurrentStackSize = Items[i].MaxStackSize;
 			}
 			else
 			{
-				Items[i]->ItemDetails.CurrentStackSize += ItemToAdd->ItemDetails.CurrentStackSize;
+				Items[i].CurrentStackSize += ItemToAdd.CurrentStackSize;
 				bMapKeyFree = true;
 				ItemIndex = -1;
 				break;
 			}
 		}
-		if (Items[i] == NULL) {
+		if (Items[i].ItemID == -1) {
 			Items[i] = ItemToAdd;
 			bMapKeyFree = true;
-			if (ItemIndex != -1) {
+			if (ItemIndex == -1) {
 				ItemIndex = i;
+				break;
 			}
 		}
 	}
@@ -139,23 +141,24 @@ void UInventoryComponent::DropItem(int foundKey)
 //	FRotator ActorRotation;
 //
 //
-//	//AItemBase* DroppedItem = GetWorld()->SpawnActor<AItemBase>(,);
-//	//DroppedItem->ItemDetails = Items[foundKey]->ItemDetails;
+//	//FItemData DroppedItem = GetWorld()->SpawnActor<FItemData>(,);
+//	//DroppedItem = Items[foundKey];
 //	Items[foundKey] = NULL;
-//	if (Items[foundKey]->GetClass() == AItemBase::StaticClass());
+//	if (Items[foundKey]->GetClass() == FItemData::StaticClass());
 }
                                           
-void UInventoryComponent::RemoveFromStack(AItemBase* ItemToRemove, int AmountToRemove = 1)
+void UInventoryComponent::RemoveFromStack(FItemData ItemToRemove, int AmountToRemove = 1)
 {
 
 }
 
 void UInventoryComponent::IncreaseCapacity()
 {
+	//When this function is called add 4 to items capacity.
 	capacity += 4;
 	for (int i = 0; i < 4; i++)
 	{
-		Items.Add(i, NULL);
+		Items.Add(i, FItemData());
 	}
 }
 
