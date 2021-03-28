@@ -134,17 +134,22 @@ bool UInventoryComponent::AddWeapon(AWeaponBase* WeaponToAdd)
 	return bWeaponMapKeyFree;
 }
 
+
 //
 void UInventoryComponent::DropItem(int foundKey)
 {
-//	FVector ActorLocation;
-//	FRotator ActorRotation;
-//
-//
-//	//FItemData DroppedItem = GetWorld()->SpawnActor<FItemData>(,);
-//	//DroppedItem = Items[foundKey];
-//	Items[foundKey] = NULL;
-//	if (Items[foundKey]->GetClass() == FItemData::StaticClass());
+	FVector ActorLocation = FVector(GetOwner()->GetActorLocation() + (GetOwner()->GetActorForwardVector() * 150.f));
+	FRotator ActorRotation;
+
+	FActorSpawnParameters ItemSpawnParams;
+	ItemSpawnParams.Owner = GetOwner();
+
+	AItemBase* DroppedItem = GetWorld()->SpawnActor<AItemBase>(ActorLocation, ActorRotation, ItemSpawnParams);
+	DroppedItem->Drop(Items[foundKey]);
+
+	Items[foundKey] = FItemData();
+
+
 }
                                           
 void UInventoryComponent::RemoveFromStack(FItemData ItemToRemove, int AmountToRemove = 1)

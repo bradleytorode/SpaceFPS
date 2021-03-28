@@ -29,12 +29,12 @@ public:
 	int Range;
 
 	UFUNCTION(BlueprintCallable)
-	virtual void UpgradeWeapon();
+	void UpgradeWeapon();
 
 	UFUNCTION(BlueprintCallable)
-	virtual void Shoot();
+	void Shoot();
 
 	UFUNCTION(BlueprintCallable)
-	virtual void Reload();
+	void Reload();
 
 };

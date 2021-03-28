@@ -2,9 +2,3 @@
 
 
 #include "KeyItems.h"
-
-void AKeyItems::Drop()
-{
-	Super::Drop();
-
-}

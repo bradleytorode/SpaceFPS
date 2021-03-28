@@ -5,12 +5,15 @@
 
 void AWeaponBase::UpgradeWeapon()
 {
+
 }
 
 void AWeaponBase::Shoot()
 {
+
 }
 
 void AWeaponBase::Reload()
 {
+
 }

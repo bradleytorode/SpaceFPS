@@ -39,7 +39,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable)
-	virtual void Use();
+	void Use();
 
 
 

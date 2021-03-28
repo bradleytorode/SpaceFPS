@@ -27,9 +27,10 @@ void AItemBase::BeginPlay()
 	
 }
 
-void AItemBase::Drop()
+void AItemBase::Drop(struct FItemData ItemToDrop)
 {
-
+	ItemDetails = ItemToDrop;
+	Mesh->SetStaticMesh(ItemToDrop.ItemMesh);
 }
 
 // Called every frame

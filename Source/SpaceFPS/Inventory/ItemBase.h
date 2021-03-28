@@ -15,16 +15,16 @@ struct FItemData:public FTableRowBase {
 	GENERATED_USTRUCT_BODY()
 
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 		int32 ItemID = -1;
-
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 		FText Name;
 
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	UStaticMeshComponent* ItemMesh;
+	UStaticMesh* ItemMesh;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
@@ -70,14 +70,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	USphereComponent* ItemCollision;
 
-
+	void Drop(struct FItemData ItemToDrop);
 	
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	virtual void Drop();
+
 
 public:	
 	// Called every frame

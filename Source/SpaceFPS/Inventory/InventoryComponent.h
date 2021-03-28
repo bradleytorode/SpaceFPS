@@ -44,12 +44,16 @@ protected:
 
 	bool AddStackableItem(FItemData ItemToAdd);
 	
+	UFUNCTION(BlueprintCallable)
 	bool AddWeapon(AWeaponBase* WeaponToAdd);
 
+	UFUNCTION(BlueprintCallable)
 	void DropItem(int foundKey);
 
+	UFUNCTION(BlueprintCallable)
 	void RemoveFromStack(FItemData ItemToRemove, int AmountToRemove);
 
+	UFUNCTION(BlueprintCallable)
 	void IncreaseCapacity();
 
 public:	
