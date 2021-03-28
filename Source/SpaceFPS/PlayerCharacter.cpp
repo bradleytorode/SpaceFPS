@@ -22,7 +22,7 @@ APlayerCharacter::APlayerCharacter()
 	//Create the Camera
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	CameraComponent->SetupAttachment(GetCapsuleComponent());
-	CameraComponent->RelativeLocation = FVector(-39.56f, 1.75f, 64.f); // Position the camera
+	//CameraComponent->RelativeLocation = FVector(-39.56f, 1.75f, 64.f); // Position the camera
 	CameraComponent->bUsePawnControlRotation = true;
 
 	//Setting up a skeletal mesh for arms which will be implemented later
@@ -30,9 +30,9 @@ APlayerCharacter::APlayerCharacter()
 	PlayerMesh->SetOnlyOwnerSee(true);
 	PlayerMesh->SetupAttachment(CameraComponent);
 	PlayerMesh->bCastDynamicShadow = false;
-	PlayerMesh->CastShadow = false;
+	PlayerMesh->CastShadow = false;/*
 	PlayerMesh->RelativeRotation = FRotator(1.9f, -19.19f, 5.2f);
-	PlayerMesh->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);
+	PlayerMesh->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);*/
 
 	//Setting up a skeletal mesh for a weapon implemented later on.
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
