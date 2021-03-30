@@ -9,6 +9,7 @@ ASpaceFPSGameModeBase::ASpaceFPSGameModeBase()
 	: Super()
 {
 	//Set deault pawn to PlayerCharacter_BP
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/Character/PlayerCharacter_BP"));
+	/*static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/Character/BP_PlayerCharacter"));
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
+	*/
 }
