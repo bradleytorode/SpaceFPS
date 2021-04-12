@@ -4,16 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Camera/CameraComponent.h"
-#include "Components/CapsuleComponent.h"
-#include "Components/InputComponent.h"
-#include "GameFramework/InputSettings.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
-#include "Inventory/InventoryComponent.h"
-#include "Engine/World.h"
-#include "Kismet/GameplayStatics.h"
 #include "Containers/Array.h"
+#include "Inventory/InventoryComponent.h"
 #include "PlayerCharacter.generated.h"
 
 
@@ -28,25 +20,25 @@ public:
 
 	//The Camera component the player will see.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-		 UCameraComponent* CameraComponent;
+	class UCameraComponent* CameraComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-		 USpringArmComponent* SpringArm;
+	class USpringArmComponent* SpringArm;
 
 	UPROPERTY(VisibleAnywhere, Category = Mesh)
-		 USkeletalMeshComponent* PlayerMesh;
+	class USkeletalMeshComponent* PlayerMesh;
 
 	UPROPERTY(VisibleAnywhere, Category = Mesh)
-		 USkeletalMeshComponent* Weapon;
+	class USkeletalMeshComponent* Weapon;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
-		 UInventoryComponent* Inventory;
+	class UInventoryComponent* Inventory;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float Health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		TArray<AItemBase*> ItemsInRange;
+	TArray<AItemBase*> ItemsInRange;
 
 protected:
 	// Called when the game starts or when spawned

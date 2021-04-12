@@ -2,8 +2,15 @@
 
 
 #include "PlayerCharacter.h"
-
-
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/InputComponent.h"
+#include "GameFramework/InputSettings.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
+#include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
+#include "Engine/SkeletalMesh.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -16,7 +23,7 @@ APlayerCharacter::APlayerCharacter()
 
 	//Setting up Spring Arm
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
-	SpringArm->SetupAttachment(RootComponent);
+	SpringArm->SetupAttachment(GetRootComponent());
 
 	//Create the Camera
 
@@ -41,8 +48,8 @@ APlayerCharacter::APlayerCharacter()
 	CameraComponent->SetupAttachment(SpringArm);
 
 	//Setting up a skeletal mesh for arms which will be implemented later
-	PlayerMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PlayerMesh"));
-	PlayerMesh->SetupAttachment(RootComponent);
+	PlayerMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PlayersMesh"));
+	PlayerMesh->SetupAttachment(GetRootComponent());
 
 	//Setting default turn and lookup rates
 	BaseTurnRate = 45.0f;
