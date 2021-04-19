@@ -2,7 +2,7 @@
 
 
 #include "SpaceFPSGameModeBase.h"
-#include "PlayerCharacter.h"
+#include "SpaceFPS/Brad/Character/PlayerCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ASpaceFPSGameModeBase::ASpaceFPSGameModeBase()
