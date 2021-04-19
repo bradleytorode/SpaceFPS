@@ -6,7 +6,8 @@
 #include "Engine/DataTable.h"
 #include "Engine/SkeletalMesh.h"
 #include "BehaviorTree/BehaviorTree.h"
-#include "SpaceFPS/Calgreghard/Navigation/AI_NavQueryFilter.h"
+#include "SpaceFPS/Calgreghard/Libraries/EnumLibrary.h"
+#include "SpaceFPS/Calgreghard/Navigation/NavQueryFilter/AI_NavQueryFilter.h"
 #include "StructLibrary.generated.h"
 
 USTRUCT(BlueprintType)
@@ -50,7 +51,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		USkeletalMesh* SKMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		UBehaviorTree* IdleBehaviour;
+		UBehaviorTree* BehaviourTree;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TEnumAsByte<EBehaviour> CurrentBehaviour;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		UAI_NavQueryFilter* NavQuery;
 };

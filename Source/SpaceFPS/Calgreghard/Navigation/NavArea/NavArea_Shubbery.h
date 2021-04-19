@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Calgreghard/Navigation/AI_NavQueryFilter.h"
+#include "Calgreghard/Navigation/NavQueryFilter/AI_NavQueryFilter.h"
 #include "NavArea_Shubbery.generated.h"
 
 /**

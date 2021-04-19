@@ -19,5 +19,5 @@ public:
 
 public:
 	/*Functions*/
-	void SpawnActor(FVector SpawnLocation, FRotator SpawnRotation, FActorSpawnParameters SpawnParams);
+	void SetVariables(FCreatureData CData);
 };

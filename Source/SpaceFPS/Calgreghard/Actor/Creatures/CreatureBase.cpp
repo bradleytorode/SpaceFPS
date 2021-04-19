@@ -3,8 +3,9 @@
 
 #include "CreatureBase.h"
 
-void ACreatureBase::SpawnActor(FVector SpawnLocation, FRotator SpawnRotation, FActorSpawnParameters SpawnParams)
+void ACreatureBase::SetVariables(FCreatureData CData)
 {
-	ACreatureBase* Creature = GetWorld()->SpawnActor<ACreatureBase>(SpawnLocation, SpawnRotation, SpawnParams);
-	GetMesh()->SetSkeletalMesh(CreatureData.SKMesh);
+	CreatureData = CData;
+	GetMesh()->SetSkeletalMesh(CData.SKMesh);
+	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 }

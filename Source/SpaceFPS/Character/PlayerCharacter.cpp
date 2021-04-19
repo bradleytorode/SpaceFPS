@@ -19,14 +19,10 @@ APlayerCharacter::APlayerCharacter()
 	SpringArm->SetupAttachment(RootComponent);
 
 	//Create the Camera
-<<<<<<< HEAD:Source/SpaceFPS/PlayerCharacter.cpp
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	CameraComponent->SetupAttachment(GetCapsuleComponent());
-<<<<<<< HEAD
 	CameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f));
-=======
 	//CameraComponent->RelativeLocation = FVector(-39.56f, 1.75f, 64.f); // Position the camera
->>>>>>> Callum-Branch
 	CameraComponent->bUsePawnControlRotation = true;
 
 	//Setting up a skeletal mesh for arms which will be implemented later
@@ -34,23 +30,14 @@ APlayerCharacter::APlayerCharacter()
 	PlayerMesh->SetOnlyOwnerSee(true);
 	PlayerMesh->SetupAttachment(CameraComponent);
 	PlayerMesh->bCastDynamicShadow = false;
-<<<<<<< HEAD
 	PlayerMesh->CastShadow = false;
 	//PlayerMesh->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
 	//PlayerMesh->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
-=======
 	PlayerMesh->CastShadow = false;/*
 	PlayerMesh->RelativeRotation = FRotator(1.9f, -19.19f, 5.2f);
 	PlayerMesh->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);*/
->>>>>>> Callum-Branch
-=======
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdPersonCamera"));
 	CameraComponent->SetupAttachment(SpringArm);
-
-	//Setting up a skeletal mesh for arms which will be implemented later
-	PlayerMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PlayerMesh"));
-	PlayerMesh->SetupAttachment(RootComponent);
->>>>>>> Bradley-Branch:Source/SpaceFPS/Character/PlayerCharacter.cpp
 
 	//Setting default turn and lookup rates
 	BaseTurnRate = 45.0f;
