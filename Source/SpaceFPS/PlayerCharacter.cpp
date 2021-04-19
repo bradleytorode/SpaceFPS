@@ -26,7 +26,10 @@ APlayerCharacter::APlayerCharacter()
 	SpringArm->SetupAttachment(GetRootComponent());
 
 	//Create the Camera
+<<<<<<< HEAD:Source/SpaceFPS/PlayerCharacter.cpp
 
+=======
+>>>>>>> Callum-Branch:Source/SpaceFPS/Character/PlayerCharacter.cpp
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	CameraComponent->SetupAttachment(GetCapsuleComponent());
 	CameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f));
@@ -47,10 +50,13 @@ APlayerCharacter::APlayerCharacter()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdPersonCamera"));
 	CameraComponent->SetupAttachment(SpringArm);
 
+<<<<<<< HEAD:Source/SpaceFPS/PlayerCharacter.cpp
 	//Setting up a skeletal mesh for arms which will be implemented later
 	PlayerMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PlayersMesh"));
 	PlayerMesh->SetupAttachment(GetRootComponent());
 
+=======
+>>>>>>> Callum-Branch:Source/SpaceFPS/Character/PlayerCharacter.cpp
 	//Setting default turn and lookup rates
 	BaseTurnRate = 45.0f;
 	BaseLookUpRate = 45.0f;
