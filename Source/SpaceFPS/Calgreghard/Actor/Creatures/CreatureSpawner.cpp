@@ -7,29 +7,38 @@
 // Sets default values
 ACreatureSpawner::ACreatureSpawner()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+
+	/*Spawn area*/
 	SpawnArea = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SpawnArea"));
 
-	ConstructorHelpers::FObjectFinder<UStaticMesh> SpawnAreaSM(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
-	if (SpawnAreaSM.Succeeded()) {
-		SpawnArea->SetStaticMesh(SpawnAreaSM.Object);
-
-		SpawnArea->SetRelativeLocation(FVector(0.f));
-
-		SpawnArea->SetCollisionProfileName(TEXT("NoCollision"));
-
-		SpawnArea->bHiddenInGame = true;
-	
-		ConstructorHelpers::FObjectFinder<UMaterialInstance> SpawnAreaMat(TEXT("MaterialInstanceConstant'/Game/CalgreghardStuff/Assets/Objects/TranslusentMat/MI_Translucent.MI_Translucent'"));
-		if (SpawnAreaMat.Succeeded()) {
-			SpawnArea->SetMaterial(0, SpawnAreaMat.Object);
+	//Set mesh
+	if (SpawnAreaMesh) {
+		SpawnArea->SetStaticMesh(SpawnAreaMesh);
+	}
+	else{ //If spawn area mesh is not defined
+		ConstructorHelpers::FObjectFinder<UStaticMesh> SpawnAreaSM(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
+		if (SpawnAreaSM.Succeeded()) {
+			SpawnArea->SetStaticMesh(SpawnAreaSM.Object);
 		}
 	}
 
+	//Set default variables
+	SpawnArea->SetCollisionProfileName(TEXT("NoCollision"));
+	SpawnArea->bHiddenInGame = true;
 
+	//Set material
+	ConstructorHelpers::FObjectFinder<UMaterialInstance> SpawnAreaMat(TEXT("MaterialInstanceConstant'/Game/CalgreghardStuff/Assets/Objects/TranslusentMat/MI_Translucent.MI_Translucent'"));
+	if (SpawnAreaMat.Succeeded()) {
+		SpawnArea->SetMaterial(0, SpawnAreaMat.Object);
+	}
+
+
+	/*Data base*/
+	//Set
 	ConstructorHelpers::FObjectFinder<UDataTable> CreatureDT(TEXT("DataTable'/Game/CalgreghardStuff/Database/DT_Creatures.DT_Creatures'"));
 	if (CreatureDT.Succeeded()) {
 		DTReference = CreatureDT.Object;
@@ -51,7 +60,7 @@ void ACreatureSpawner::BeginPlay()
 
 	SpawnCreatureData = *DTReference->FindRow<FCreatureData>(RowName, FString(""));
 
-	float spawnRadius = 100 * SpawnArea->GetRelativeScale3D().Size();
+	float spawnRadius = SpawnArea->GetStaticMesh()->GetBounds().BoxExtent.Size();
 
 	FVector spawnLocation = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem())->GetRandomPointInNavigableRadius(GetWorld(), GetActorLocation(), spawnRadius);
 

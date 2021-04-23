@@ -12,3 +12,7 @@ Saved
 *.suo
 *.xcodeproj
 *.xcworkspace
+Content/Joshua/PN_LowpolyGras/Blueprints/PN_Bending_Component.uasset
+Content/Joshua/PN_LowpolyGras/Blueprints/PN_GlobalUpdater.uasset
+Content/Joshua/PN_LowpolyGras/Materials/MaterialFunctions/PN_BendingParameters.uasset
+Content/Joshua/PN_LowpolyGras/Materials/MaterialFunctions/PN_AnimationShader.uasset

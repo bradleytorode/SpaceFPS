@@ -12,7 +12,7 @@ enum ECreatureNames {
 
 UENUM(BlueprintType)
 enum EBehaviour {
-	None		UMETA(DisplayName = "None"),
 	Idle		UMETA(DisplayName = "Idle"),
-	Moving		UMETA(DisplayName = "Moving")
+	Moving		UMETA(DisplayName = "Moving"),
+	Max			UMETA(DisplayName = "Max")
 };

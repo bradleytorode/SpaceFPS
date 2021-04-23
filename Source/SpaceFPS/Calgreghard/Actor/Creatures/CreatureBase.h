@@ -15,9 +15,17 @@ class SPACEFPS_API ACreatureBase : public ACharacter
 public:
 	/*Variables*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
+	UStaticMeshComponent* Target;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 		FCreatureData CreatureData;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UBehaviorTree* BT;
+
 public:
+	ACreatureBase();
+
 	/*Functions*/
-	void SetVariables(FCreatureData CData);
+	void SetVariables(FCreatureData CData);	
 };

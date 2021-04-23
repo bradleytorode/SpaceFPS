@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
 #include "Engine/SkeletalMesh.h"
+#include "Animation/AnimBlueprint.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "Perception/AISenseConfig_Sight.h"
 #include "SpaceFPS/Calgreghard/Libraries/EnumLibrary.h"
 #include "SpaceFPS/Calgreghard/Navigation/NavQueryFilter/AI_NavQueryFilter.h"
 #include "StructLibrary.generated.h"
@@ -51,9 +53,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		USkeletalMesh* SKMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		UBehaviorTree* BehaviourTree;
+		UAnimBlueprint* SKAniBP;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		TEnumAsByte<EBehaviour> CurrentBehaviour;
+		int IdleLimit;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		UAI_NavQueryFilter* NavQuery;
+		float PeripheralVision = 90.f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TSubclassOf<UAI_NavQueryFilter> NavQuery;
 };

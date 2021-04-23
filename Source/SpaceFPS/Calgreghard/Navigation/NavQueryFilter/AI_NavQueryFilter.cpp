@@ -3,9 +3,30 @@
 
 #include "AI_NavQueryFilter.h"
 #include "NavAreas/NavArea_Default.h"
+#include "NavAreas/NavArea_LowHeight.h"
+#include "NavAreas/NavArea_Null.h"
+#include "NavAreas/NavArea_Obstacle.h"
+#include "SpaceFPS/Calgreghard/Navigation/NavArea/NavArea_Water.h"
 
 UAI_NavQueryFilter::UAI_NavQueryFilter() {
-	TSubclassOf<UNavArea_Default> ZoneDefault = TSubclassOf<UNavArea_Default>(UNavArea_Default::StaticClass());
 
-	AddExcludedArea(ZoneDefault);
+	FNavigationFilterArea DefaultArea;
+	FNavigationFilterArea LowHeightArea;
+	FNavigationFilterArea NullArea;
+	FNavigationFilterArea ObstacleArea;
+	FNavigationFilterArea WaterArea;
+
+	DefaultArea.AreaClass = UNavArea_Default::StaticClass();
+	LowHeightArea.AreaClass = UNavArea_LowHeight::StaticClass();
+	NullArea.AreaClass = UNavArea_Null::StaticClass();
+	ObstacleArea.AreaClass = UNavArea_Obstacle::StaticClass();
+	WaterArea.AreaClass = UNavArea_Water::StaticClass();
+
+	Areas.Add(DefaultArea);
+	Areas.Add(LowHeightArea);
+	Areas.Add(NullArea);
+	Areas.Add(ObstacleArea);
+	Areas.Add(WaterArea);
+
+	Areas[2].EnteringCostOverride = 999;
 }
