@@ -13,7 +13,5 @@ UCLASS()
 class SPACEFPS_API UNavArea_Water : public UNavArea
 {
 	GENERATED_BODY()
-
-public:
-	UNavArea_Water();
+	
 };

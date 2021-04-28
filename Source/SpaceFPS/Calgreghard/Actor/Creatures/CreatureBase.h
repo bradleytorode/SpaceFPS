@@ -13,32 +13,19 @@ class SPACEFPS_API ACreatureBase : public ACharacter
 	GENERATED_BODY()
 
 public:
-	/*Components*/
+	/*Variables*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
 	UStaticMeshComponent* Target;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Variables")
-	FCreatureData CreatureData;
+		FCreatureData CreatureData;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UBehaviorTree* BT;
 
-private:
-	UPROPERTY(VisibleAnywhere)
-	int Health = 100;
-
 public:
 	ACreatureBase();
 
-	/*Getters*/
-	FORCEINLINE int GetHealth() { return Health; }
-
 	/*Functions*/
 	void SetVariables(FCreatureData CData);	
-
-	UFUNCTION(BlueprintCallable)
-	void TakeDamage(int dmgNumber);
-
-	UFUNCTION(BlueprintCallable)
-	void Die();
 };

@@ -3,17 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "NavAreas/NavArea.h"
+#include "Calgreghard/Navigation/NavQueryFilter/AI_NavQueryFilter.h"
 #include "NavArea_Shubbery.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SPACEFPS_API UNavArea_Shubbery : public UNavArea
+class SPACEFPS_API UNavArea_Shubbery : public UAI_NavQueryFilter
 {
 	GENERATED_BODY()
 	
-public:
-	UNavArea_Shubbery();
 };

@@ -51,8 +51,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		FName CreatureName;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		TEnumAsByte<ESociality> SocialBehaviour;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		USkeletalMesh* SKMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		UAnimBlueprint* SKAniBP;

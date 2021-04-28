@@ -3,7 +3,6 @@
 
 #include "CreatureSpawner.h"
 #include "NavigationSystem.h"
-#include "SpaceFPS/Calgreghard/Navigation/NavQueryFilter/AI_NavQueryFilter.h"
 
 // Sets default values
 ACreatureSpawner::ACreatureSpawner()
@@ -17,9 +16,14 @@ ACreatureSpawner::ACreatureSpawner()
 	SpawnArea = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SpawnArea"));
 
 	//Set mesh
-	ConstructorHelpers::FObjectFinder<UStaticMesh> SpawnAreaSM(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
-	if (SpawnAreaSM.Succeeded()) {
-		SpawnArea->SetStaticMesh(SpawnAreaSM.Object);
+	if (SpawnAreaMesh) {
+		SpawnArea->SetStaticMesh(SpawnAreaMesh);
+	}
+	else{ //If spawn area mesh is not defined
+		ConstructorHelpers::FObjectFinder<UStaticMesh> SpawnAreaSM(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
+		if (SpawnAreaSM.Succeeded()) {
+			SpawnArea->SetStaticMesh(SpawnAreaSM.Object);
+		}
 	}
 
 	//Set default variables
@@ -56,16 +60,11 @@ void ACreatureSpawner::BeginPlay()
 
 	SpawnCreatureData = *DTReference->FindRow<FCreatureData>(RowName, FString(""));
 
-	float spawnRadius = SpawnArea->GetComponentScale().Size() * SpawnArea->GetStaticMesh()->GetBounds().BoxExtent.Size();
+	float spawnRadius = SpawnArea->GetStaticMesh()->GetBounds().BoxExtent.Size();
 
-	ACreatureBase* spawnCreature;
-	do {
-		FVector spawnLocation = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem())->GetRandomPointInNavigableRadius(GetWorld(), GetActorLocation(), spawnRadius, (ANavigationData*)0, SpawnCreatureData.NavQuery);
+	FVector spawnLocation = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem())->GetRandomPointInNavigableRadius(GetWorld(), GetActorLocation(), spawnRadius);
 
-		spawnCreature = GetWorld()->SpawnActor<ACreatureBase>(spawnLocation, FRotator(0.f, 0.f, 0.f), SpawnParams);
-	} while (spawnCreature == NULL);
-
-	CreaturesArray.Add(spawnCreature);
+	CreaturesArray.Add(GetWorld()->SpawnActor<ACreatureBase>(spawnLocation, FRotator(0.f, 0.f, 0.f), SpawnParams));
 
 	CreaturesArray[0]->SetVariables(SpawnCreatureData);
 	
