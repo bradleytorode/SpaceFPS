@@ -26,9 +26,6 @@ public:
 		UDataTable* DTReference;
 
 	UPROPERTY(EditAnywhere)
-		class UStaticMesh* SpawnAreaMesh;
-
-	UPROPERTY(EditAnywhere)
 		TEnumAsByte<ECreatureNames> RowNameEnum;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FCreatureData SpawnCreatureData;

@@ -44,3 +44,17 @@ void ACreatureBase::SetVariables(FCreatureData CData)
 
 	Controller->Possess(this);
 }
+
+void ACreatureBase::TakeDamage(int dmgAmount) {
+	Health -= dmgAmount;
+
+	if (Health <= 0) {
+		Die();
+	}
+}
+
+void ACreatureBase::Die() {
+	Cast<ACreatureAIController>(GetController())->BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Dead);
+
+	//Maybe an event dispatcher for other creatures to react to 
+}

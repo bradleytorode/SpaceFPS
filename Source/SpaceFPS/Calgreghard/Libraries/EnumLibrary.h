@@ -14,5 +14,12 @@ UENUM(BlueprintType)
 enum EBehaviour {
 	Idle		UMETA(DisplayName = "Idle"),
 	Moving		UMETA(DisplayName = "Moving"),
+	Dead		UMETA(DisplayName = "Dead"),
 	Max			UMETA(DisplayName = "Max")
+};
+
+UENUM(BlueprintType)
+enum ESociality {
+	Solitary	UMETA(DisplayName = "Solitary"),
+	Pack		UMETA(DisplayName = "Pack")
 };
