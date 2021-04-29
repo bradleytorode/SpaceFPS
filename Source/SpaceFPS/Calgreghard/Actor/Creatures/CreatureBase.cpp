@@ -6,13 +6,6 @@
 
 ACreatureBase::ACreatureBase()
 {
-	Target = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Target"));
-	ConstructorHelpers::FObjectFinder<UStaticMesh>TargetMesh(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
-	if (TargetMesh.Succeeded()) {
-		Target->SetStaticMesh(TargetMesh.Object);
-	}
-
-
 	ConstructorHelpers::FObjectFinder<UBehaviorTree>BTRef(TEXT("BehaviorTree'/Game/CalgreghardStuff/AI/BT/BT_Creatures.BT_Creatures'"));
 	if (BTRef.Succeeded()) {
 		BT = BTRef.Object;
