@@ -19,12 +19,6 @@ APlayerCharacter::APlayerCharacter()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//Setting up a skeletal mesh for arms which will be implemented later
-	PlayerMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PlayerMesh"));
-	PlayerMesh->SetOnlyOwnerSee(true);
-	PlayerMesh->SetupAttachment(CameraComponent);
-	PlayerMesh->bCastDynamicShadow = false;
-	PlayerMesh->CastShadow = false;
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponent"));
 	SpringArm->TargetArmLength = 650.f;
@@ -49,7 +43,7 @@ APlayerCharacter::APlayerCharacter()
 	BaseLookUpRate = 45.0f;
 
 	//Setting up a skeletal mesh for a weapon implemented later on.
-	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
+	Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon"));
 	Weapon->SetOnlyOwnerSee(true);    // only the owning player will see this mesh
 	Weapon->bCastDynamicShadow = false;
 	Weapon->CastShadow = false;

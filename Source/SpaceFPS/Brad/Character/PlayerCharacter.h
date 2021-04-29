@@ -26,16 +26,13 @@ public:
 	class USpringArmComponent* SpringArm;
 
 	UPROPERTY(VisibleAnywhere, Category = Mesh)
-	class USkeletalMeshComponent* PlayerMesh;
-
-	UPROPERTY(VisibleAnywhere, Category = Mesh)
-	class USkeletalMeshComponent* Weapon;
+	class UStaticMeshComponent* Weapon;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
 	class UInventoryComponent* Inventory;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		float Health;
+		int Health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TArray<AItemBase*> ItemsInRange;
