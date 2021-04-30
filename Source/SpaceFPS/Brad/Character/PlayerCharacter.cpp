@@ -10,42 +10,40 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/SkeletalMesh.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//Create the Camera
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
-	CameraComponent->SetupAttachment(GetCapsuleComponent());
-	CameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f));
-	//CameraComponent->RelativeLocation = FVector(-39.56f, 1.75f, 64.f); // Position the camera
+
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponent"));
+	SpringArm->TargetArmLength = 650.f;
+	SpringArm->SetupAttachment(GetRootComponent());
+	SpringArm->bUsePawnControlRotation = true;
+
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdPersonCamera"));
+	CameraComponent->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	CameraComponent->bUsePawnControlRotation = true;
 
-	//Setting up a skeletal mesh for arms which will be implemented later
-	PlayerMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PlayerMesh"));
-	PlayerMesh->SetOnlyOwnerSee(true);
-	PlayerMesh->SetupAttachment(CameraComponent);
-	PlayerMesh->bCastDynamicShadow = false;
-	PlayerMesh->CastShadow = false;
-	//PlayerMesh->SetRelativeRotation(FRotator(1.9f, -19.19f, 5.2f));
-	//PlayerMesh->SetRelativeLocation(FVector(-0.5f, -4.4f, -155.7f));
-	PlayerMesh->CastShadow = false;/*
-	PlayerMesh->RelativeRotation = FRotator(1.9f, -19.19f, 5.2f);
-	PlayerMesh->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);*/
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdPersonCamera"));
-	CameraComponent->SetupAttachment(SpringArm);
+	//Stops Player Moving around with Camera
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+
+	//Get Character to turn whilst moving. compared to making a straight turn
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 360.0f, 0.0f); //Uses a rotation rate 
 
 	//Setting default turn and lookup rates
 	BaseTurnRate = 45.0f;
 	BaseLookUpRate = 45.0f;
 
-
 	//Setting up a skeletal mesh for a weapon implemented later on.
-	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
+	Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon"));
 	Weapon->SetOnlyOwnerSee(true);    // only the owning player will see this mesh
 	Weapon->bCastDynamicShadow = false;
 	Weapon->CastShadow = false;
@@ -53,13 +51,15 @@ APlayerCharacter::APlayerCharacter()
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 
+	Health = 10;
+
 }
 
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 
@@ -81,7 +81,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerCharacter::Interact);
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &APlayerCharacter::PickupItem);
-	
+
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);

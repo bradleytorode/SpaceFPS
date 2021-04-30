@@ -3,17 +3,17 @@
 
 #include "WeaponBase.h"
 
-void AWeaponBase::UpgradeWeapon()
+//void AWeaponBase::UpgradeWeapon_Implementation()
+//{
+	//When materials are in players inventory and player is at crafting bench, do this.
+//}
+
+void AWeaponBase::Shoot_Implementation()
 {
 
 }
 
-void AWeaponBase::Shoot()
-{
-
-}
-
-void AWeaponBase::Reload()
+void AWeaponBase::Reload_Implementation()
 {
 
 }

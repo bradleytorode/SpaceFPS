@@ -28,13 +28,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	int Range;
 
-	UFUNCTION(BlueprintCallable)
-	void UpgradeWeapon();
+	//UFUNCTION(BlueprintCallable)
+	//void UpgradeWeapon();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon Mechanics")
 	void Shoot();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon Mechanics")
 	void Reload();
 
 };
