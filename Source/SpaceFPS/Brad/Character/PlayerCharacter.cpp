@@ -27,11 +27,12 @@ APlayerCharacter::APlayerCharacter()
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdPersonCamera"));
 	CameraComponent->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+	CameraComponent->bUsePawnControlRotation = true;
 
 	//Stops Player Moving around with Camera
-	//bUseControllerRotationYaw = false;
-	//bUseControllerRotationPitch = false;
-	//bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
 
 	//Get Character to turn whilst moving. compared to making a straight turn
 	GetCharacterMovement()->bOrientRotationToMovement = true;
