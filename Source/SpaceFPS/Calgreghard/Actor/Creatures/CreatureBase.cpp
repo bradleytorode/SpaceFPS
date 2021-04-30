@@ -3,6 +3,7 @@
 
 #include "CreatureBase.h"
 #include "SpaceFPS/Calgreghard/Actor/Creatures/CreatureAIController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 ACreatureBase::ACreatureBase()
 {
@@ -22,9 +23,11 @@ void ACreatureBase::SetVariables(FCreatureData CData)
 {
 	CreatureData = CData;
 	
-	GetMesh()->SetSkeletalMesh(CData.SKMesh);
+	GetMesh()->SetSkeletalMesh(CreatureData.SKMesh);
 
-	GetMesh()->SetAnimClass(CData.SKAniBP->GeneratedClass);
+	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = CreatureData.walkSpeed;
+
+	GetMesh()->SetAnimClass(CreatureData.SKAniBP->GeneratedClass);
 
 	FActorSpawnParameters spawnParams;
 	spawnParams.Owner;
@@ -36,4 +39,28 @@ void ACreatureBase::SetVariables(FCreatureData CData)
 	Controller = SpawnController;
 
 	Controller->Possess(this);
+}
+
+void ACreatureBase::TakeDamage(int dmgAmount)
+{
+	if (dmgAmount <= Health)
+		Health -= dmgAmount;
+	else
+		Health = 0;
+
+	if (Health <= 0) {
+		Die();
+	}
+	else {
+		Cast<ACreatureAIController>(GetController())->BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Alerted);
+
+		Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = CreatureData.runSpeed / (CreatureData.maxHealth / Health);
+	}
+}
+
+void ACreatureBase::Die()
+{
+	Cast<ACreatureAIController>(GetController())->SenseComp->OnPerceptionUpdated.Clear();
+
+	Cast<ACreatureAIController>(GetController())->BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Dead);
 }

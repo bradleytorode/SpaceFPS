@@ -50,6 +50,13 @@ struct FCreatureData : public FTableRowBase {
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		FName CreatureName;
+	//Add texture 2D for minimap
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int maxHealth;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float walkSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		float runSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		USkeletalMesh* SKMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)

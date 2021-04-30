@@ -34,5 +34,8 @@ public:
 
 	virtual void OnPossess(APawn* InPawn) override;
 
+	UFUNCTION()
+	void OnPawnDetected(const TArray<AActor*>& DetectedPawns);
+
 	virtual void GetActorEyesViewPoint(FVector& out_Location, FRotator& out_Rotation) const override;
 };

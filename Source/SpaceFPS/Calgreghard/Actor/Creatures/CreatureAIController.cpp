@@ -3,20 +3,35 @@
 
 #include "CreatureAIController.h"
 #include "SpaceFPS/Calgreghard/Actor/Creatures/CreatureBase.h"
+#include "SpaceFPS/Brad/Character/PlayerCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 ACreatureAIController::ACreatureAIController()
 {
-	/*Initialise AI*/
+	/*Initialise AI behaviour tree and blackboard*/
 	BTComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BTComp"));
 	BBComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BBComp"));
 
+	//Make ai perception components
 	SenseComp = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("SenseComp"));
-
 	SenseSight = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SenseSight"));
-	
+
+	//Set perception
 	SetPerceptionComponent(*SenseComp);
 
-	GetPerceptionComponent()->ConfigureSense(*SenseSight);
+	//Set affiliation detection
+	SenseSight->DetectionByAffiliation.bDetectEnemies = true;
+	SenseSight->DetectionByAffiliation.bDetectFriendlies = true;
+	SenseSight->DetectionByAffiliation.bDetectNeutrals = true;
+
+	//AI perception variables setting
+	SenseComp->SetDominantSense(*SenseSight->GetSenseImplementation());
+	SenseComp->OnPerceptionUpdated.AddDynamic(this, &ACreatureAIController::OnPawnDetected);
+
+	//Configure senses
+	SenseComp->ConfigureSense(*SenseSight);
+
 }
 
 
@@ -32,6 +47,18 @@ void ACreatureAIController::OnPossess(APawn* InPawn) {
 
 		BTComp->StartTree(*ControlledCreature->BT);
 
+	}
+}
+
+void ACreatureAIController::OnPawnDetected(const TArray<AActor*>& DetectedPawns)
+{
+	for (AActor * actor : DetectedPawns) {
+		ACharacter* character = Cast<ACharacter>(actor);
+		if (Cast<APlayerCharacter>(character)) {
+			BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Alerted);
+
+			Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->CreatureData.runSpeed;
+		}
 	}
 }
 
