@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "SpaceFPS/Calgreghard/Libraries/EnumLibrary.h"
 #include "SpaceFPS/Calgreghard/Libraries/StructLibrary.h"
-#include "SpaceFPS/Calgreghard/Actor/Creatures/CreatureBase.h"
+#include "SpaceFPS/Calgreghard/Actor/CreatureBase.h"
 #include "CreatureSpawner.generated.h"
 
 UCLASS()
@@ -16,28 +16,26 @@ class SPACEFPS_API ACreatureSpawner : public AActor
 	
 public:
 	/*Components*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly)
 		UStaticMeshComponent* SpawnArea;
 
 	/*Private variables*/
-	UPROPERTY(BlueprintReadOnly)
-		FName RowName;
 	UPROPERTY()
 		UDataTable* DTReference;
 
-	UPROPERTY(EditAnywhere)
-		class UStaticMesh* SpawnAreaMesh;
-
-	UPROPERTY(EditAnywhere)
-		TEnumAsByte<ECreatureNames> RowNameEnum;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawn variables")
 		FCreatureData SpawnCreatureData;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spawn variables")
+		TArray<class TSubclassOf<ACreatureBase>> CreaturesToSpawnClass;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawn variables")
 		TArray<ACreatureBase*> CreaturesArray;
 
 public:	
 	// Sets default values for this actor's properties
 	ACreatureSpawner();
+
+	UFUNCTION(BlueprintCallable)
+		void SpawnCreatures();
 
 protected:
 	// Called when the game starts or when spawned

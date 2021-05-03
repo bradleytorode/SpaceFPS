@@ -2,7 +2,7 @@
 
 
 #include "CreatureAIController.h"
-#include "SpaceFPS/Calgreghard/Actor/Creatures/CreatureBase.h"
+#include "SpaceFPS/Calgreghard/Actor/CreatureBase.h"
 #include "SpaceFPS/Brad/Character/PlayerCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 

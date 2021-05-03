@@ -2,7 +2,7 @@
 
 
 #include "CreatureBase.h"
-#include "SpaceFPS/Calgreghard/Actor/Creatures/CreatureAIController.h"
+#include "SpaceFPS/Calgreghard/Actor/CreatureAIController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ACreatureBase::ACreatureBase()

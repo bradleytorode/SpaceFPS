@@ -15,15 +15,9 @@ ACreatureSpawner::ACreatureSpawner()
 	/*Spawn area*/
 	SpawnArea = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SpawnArea"));
 
-	//Set mesh
-	if (SpawnAreaMesh) {
-		SpawnArea->SetStaticMesh(SpawnAreaMesh);
-	}
-	else{ //If spawn area mesh is not defined
-		ConstructorHelpers::FObjectFinder<UStaticMesh> SpawnAreaSM(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
-		if (SpawnAreaSM.Succeeded()) {
-			SpawnArea->SetStaticMesh(SpawnAreaSM.Object);
-		}
+	ConstructorHelpers::FObjectFinder<UStaticMesh> SpawnAreaSM(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
+	if (SpawnAreaSM.Succeeded()) {
+		SpawnArea->SetStaticMesh(SpawnAreaSM.Object);
 	}
 
 	//Set default variables
@@ -36,12 +30,37 @@ ACreatureSpawner::ACreatureSpawner()
 		SpawnArea->SetMaterial(0, SpawnAreaMat.Object);
 	}
 
-
-	/*Data base*/
-	//Set
+	/*Creatures database*/
 	ConstructorHelpers::FObjectFinder<UDataTable> CreatureDT(TEXT("DataTable'/Game/CalgreghardStuff/Database/DT_Creatures.DT_Creatures'"));
 	if (CreatureDT.Succeeded()) {
 		DTReference = CreatureDT.Object;
+	}
+}
+
+void ACreatureSpawner::SpawnCreatures()
+{
+	/*Spawn parameters*/
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+
+
+	/*Spawn in random location within bounds*/
+	float spawnRadius = SpawnArea->GetStaticMesh()->GetBounds().BoxExtent.Size();
+
+	FVector spawnLocation = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem())->GetRandomPointInNavigableRadius(GetWorld(), GetActorLocation(), spawnRadius, (ANavigationData*)0, CreaturesToSpawnClass[0].GetDefaultObject()->CreatureData.NavQuery);
+
+	for (int i = 0; i < CreaturesToSpawnClass.Num(); i++)
+	{
+		int LoopLength = 1;
+		if (CreaturesToSpawnClass[0].GetDefaultObject()->CreatureData.Sociality == ESociality::Pack)
+			LoopLength = FMath::RandRange(3.f, 5.f);
+
+		for (int j = 0; j < LoopLength; j++)
+		{
+			ACreatureBase* Creature = GetWorld()->SpawnActor<ACreatureBase>(CreaturesToSpawnClass[i], spawnLocation, FRotator(0.f, 0.f, 0.f), SpawnParams);
+			Creature->AddActorWorldRotation(FRotator(0.f, FMath::RandRange(0.f, 360.f), 0.f));
+			CreaturesArray.Add(Creature);
+		}
 	}
 }
 
@@ -50,24 +69,7 @@ void ACreatureSpawner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = this;
-
-	/*Set spawn creature*/
-	FString RowNameString = UEnum::GetValueAsString(RowNameEnum.GetValue());
-
-	RowName = (FName)RowNameString;
-
-	SpawnCreatureData = *DTReference->FindRow<FCreatureData>(RowName, FString(""));
-
-	float spawnRadius = SpawnArea->GetStaticMesh()->GetBounds().BoxExtent.Size();
-
-	FVector spawnLocation = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem())->GetRandomPointInNavigableRadius(GetWorld(), GetActorLocation(), spawnRadius);
-
-	CreaturesArray.Add(GetWorld()->SpawnActor<ACreatureBase>(spawnLocation, FRotator(0.f, 0.f, 0.f), SpawnParams));
-
-	CreaturesArray[0]->SetVariables(SpawnCreatureData);
-	
+	SpawnCreatures();
 }
 
 // Called every frame

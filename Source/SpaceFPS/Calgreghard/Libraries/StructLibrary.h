@@ -58,6 +58,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float runSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TEnumAsByte<ESociality> Sociality;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		bool bifAlpha = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		USkeletalMesh* SKMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		UAnimBlueprint* SKAniBP;

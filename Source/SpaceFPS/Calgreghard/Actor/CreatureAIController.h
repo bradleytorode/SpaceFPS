@@ -8,7 +8,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
-#include "SpaceFPS/Calgreghard/Actor/Creatures/CreatureBase.h"
+#include "SpaceFPS/Calgreghard/Actor/CreatureBase.h"
 #include "CreatureAIController.generated.h"
 
 UCLASS()
