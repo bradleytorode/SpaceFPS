@@ -54,10 +54,20 @@ void ACreatureAIController::OnPawnDetected(const TArray<AActor*>& DetectedPawns)
 {
 	for (AActor * actor : DetectedPawns) {
 		ACharacter* character = Cast<ACharacter>(actor);
+
+		/*FActorPerceptionBlueprintInfo PerceptionInfo;
+
+		SenseComp->GetActorsPerception(character, PerceptionInfo);
+
+		FAIStimulus AIStim = PerceptionInfo.LastSensedStimuli[0];
+
+		AIStim.GetAge()*/
+
 		if (Cast<APlayerCharacter>(character)) {
 			BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Alerted);
+			BBComp->SetValueAsVector(TEXT("LastSeenLocationKey"), character->GetActorLocation());
 
-			Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->CreatureData.runSpeed;
+			Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->RunSpeed;
 		}
 	}
 }

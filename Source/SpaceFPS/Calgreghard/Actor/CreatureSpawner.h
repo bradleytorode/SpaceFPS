@@ -7,17 +7,24 @@
 #include "SpaceFPS/Calgreghard/Libraries/EnumLibrary.h"
 #include "SpaceFPS/Calgreghard/Libraries/StructLibrary.h"
 #include "SpaceFPS/Calgreghard/Actor/CreatureBase.h"
+#include "EnvironmentQuery/EnvQuery.h"
+#include "EnvironmentQuery/EnvQueryManager.h"
+#include "Templates/SharedPointer.h"
 #include "CreatureSpawner.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class SPACEFPS_API ACreatureSpawner : public AActor
 {
 	GENERATED_BODY()
 	
 public:
 	/*Components*/
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		UStaticMeshComponent* Root;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		UStaticMeshComponent* SpawnArea;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UStaticMeshComponent* TriggerZone;
 
 	/*Private variables*/
 	UPROPERTY()
@@ -25,17 +32,26 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawn variables")
 		FCreatureData SpawnCreatureData;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spawn variables")
-		TArray<class TSubclassOf<ACreatureBase>> CreaturesToSpawnClass;
+	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spawn variables")
+		TArray<class TSubclassOf<ACreatureBase>> CreaturesToSpawnClass;*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawn variables")
 		TArray<ACreatureBase*> CreaturesArray;
+
+	/*EQS*/
+	FVector spawnLocation;
+	UEnvQuery* SpawnLocationEQS;
+	FEnvQueryRequest QueryRequest;
+	
 
 public:	
 	// Sets default values for this actor's properties
 	ACreatureSpawner();
 
 	UFUNCTION(BlueprintCallable)
-		void SpawnCreatures();
+		virtual void SpawnCreatures();
+
+	void EQSResult(TSharedPtr<FEnvQueryResult> results);
+
 
 protected:
 	// Called when the game starts or when spawned

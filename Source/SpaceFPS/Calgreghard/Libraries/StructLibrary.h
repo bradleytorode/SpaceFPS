@@ -60,7 +60,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		TEnumAsByte<ESociality> Sociality;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		bool bifAlpha = false;
+		FVector2D GroupSizeRange;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		USkeletalMesh* SKMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -71,4 +71,9 @@ public:
 		float PeripheralVision = 90.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		TSubclassOf<UAI_NavQueryFilter> NavQuery;
+
+public:
+	FCreatureData() {
+		GroupSizeRange = FVector2D(1.f, 1.f);
+	}
 };

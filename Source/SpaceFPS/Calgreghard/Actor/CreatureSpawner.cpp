@@ -3,6 +3,8 @@
 
 #include "CreatureSpawner.h"
 #include "NavigationSystem.h"
+#include "Templates/SharedPointer.h"
+
 
 // Sets default values
 ACreatureSpawner::ACreatureSpawner()
@@ -10,10 +12,12 @@ ACreatureSpawner::ACreatureSpawner()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	Root = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Root"));
+	Root->SetupAttachment(RootComponent);
 
 	/*Spawn area*/
 	SpawnArea = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SpawnArea"));
+	SpawnArea->SetupAttachment(Root);
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh> SpawnAreaSM(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
 	if (SpawnAreaSM.Succeeded()) {
@@ -21,7 +25,7 @@ ACreatureSpawner::ACreatureSpawner()
 	}
 
 	//Set default variables
-	SpawnArea->SetCollisionProfileName(TEXT("NoCollision"));
+	SpawnArea->SetCollisionProfileName(TEXT("NoCollision"), false);
 	SpawnArea->bHiddenInGame = true;
 
 	//Set material
@@ -30,37 +34,41 @@ ACreatureSpawner::ACreatureSpawner()
 		SpawnArea->SetMaterial(0, SpawnAreaMat.Object);
 	}
 
+	/*Trigger zone*/
+	TriggerZone = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TriggerZone"));
+	TriggerZone->SetupAttachment(Root);
+
+	TriggerZone->SetVisibility(false);
+	TriggerZone->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	TriggerZone->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
+
 	/*Creatures database*/
 	ConstructorHelpers::FObjectFinder<UDataTable> CreatureDT(TEXT("DataTable'/Game/CalgreghardStuff/Database/DT_Creatures.DT_Creatures'"));
 	if (CreatureDT.Succeeded()) {
 		DTReference = CreatureDT.Object;
 	}
+
+	/*Spawning EQS*/
+	ConstructorHelpers::FObjectFinder<UEnvQuery> SpawnQuery(TEXT("EnvQuery'/Game/CalgreghardStuff/AI/EQS/Queries/EQS_SpawnOutOfSight.EQS_SpawnOutOfSight'"));
+	if (SpawnQuery.Succeeded()) {
+		SpawnLocationEQS = SpawnQuery.Object;
+
+		QueryRequest = FEnvQueryRequest(SpawnLocationEQS, ACreatureSpawner::StaticClass());
+	}
+
 }
 
 void ACreatureSpawner::SpawnCreatures()
 {
-	/*Spawn parameters*/
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = this;
+}
 
+void ACreatureSpawner::EQSResult(TSharedPtr<FEnvQueryResult> results)
+{
+	if (results.IsValid()) {
+		TArray<FVector> EQSLocations;
+		results.Get()->GetAllAsLocations(EQSLocations);
 
-	/*Spawn in random location within bounds*/
-	float spawnRadius = SpawnArea->GetStaticMesh()->GetBounds().BoxExtent.Size();
-
-	FVector spawnLocation = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem())->GetRandomPointInNavigableRadius(GetWorld(), GetActorLocation(), spawnRadius, (ANavigationData*)0, CreaturesToSpawnClass[0].GetDefaultObject()->CreatureData.NavQuery);
-
-	for (int i = 0; i < CreaturesToSpawnClass.Num(); i++)
-	{
-		int LoopLength = 1;
-		if (CreaturesToSpawnClass[0].GetDefaultObject()->CreatureData.Sociality == ESociality::Pack)
-			LoopLength = FMath::RandRange(3.f, 5.f);
-
-		for (int j = 0; j < LoopLength; j++)
-		{
-			ACreatureBase* Creature = GetWorld()->SpawnActor<ACreatureBase>(CreaturesToSpawnClass[i], spawnLocation, FRotator(0.f, 0.f, 0.f), SpawnParams);
-			Creature->AddActorWorldRotation(FRotator(0.f, FMath::RandRange(0.f, 360.f), 0.f));
-			CreaturesArray.Add(Creature);
-		}
+		spawnLocation = EQSLocations[FMath::RandRange(0.f, (float)EQSLocations.Num())];
 	}
 }
 
@@ -69,7 +77,7 @@ void ACreatureSpawner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SpawnCreatures();
+	//SpawnCreatures();
 }
 
 // Called every frame

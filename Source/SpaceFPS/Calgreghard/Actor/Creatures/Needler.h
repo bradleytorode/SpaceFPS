@@ -6,9 +6,6 @@
 #include "Calgreghard/Actor/CreatureBase.h"
 #include "Needler.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class SPACEFPS_API ANeedler : public ACreatureBase
 {
@@ -16,4 +13,7 @@ class SPACEFPS_API ANeedler : public ACreatureBase
 	
 public:
 	ANeedler();
+
+protected:
+	virtual void BeginPlay() override;
 };

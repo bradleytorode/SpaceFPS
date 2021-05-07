@@ -18,8 +18,10 @@ class SPACEFPS_API ACreatureAIController : public AAIController
 
 public:
 	/*AI components*/
-	UBehaviorTreeComponent* BTComp;
-	UBlackboardComponent* BBComp;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		UBehaviorTreeComponent* BTComp;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		UBlackboardComponent* BBComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		UAIPerceptionComponent* SenseComp;

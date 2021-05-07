@@ -4,14 +4,10 @@
 #include "CreatureBase.h"
 #include "SpaceFPS/Calgreghard/Actor/CreatureAIController.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include <Runtime/Engine/Classes/Kismet/GameplayStatics.h>
 
 ACreatureBase::ACreatureBase()
 {
-	ConstructorHelpers::FObjectFinder<UBehaviorTree>BTRef(TEXT("BehaviorTree'/Game/CalgreghardStuff/AI/BT/BT_Creatures.BT_Creatures'"));
-	if (BTRef.Succeeded()) {
-		BT = BTRef.Object;
-	}
-
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 	GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 
@@ -19,25 +15,16 @@ ACreatureBase::ACreatureBase()
 	spawnParams.Owner = this;
 }
 
-void ACreatureBase::SetVariables(FCreatureData CData)
+void ACreatureBase::BeginPlay()
 {
-	CreatureData = CData;
-	
-	GetMesh()->SetSkeletalMesh(CreatureData.SKMesh);
+	Super::BeginPlay();
 
-	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = CreatureData.walkSpeed;
-
-	GetMesh()->SetAnimClass(CreatureData.SKAniBP->GeneratedClass);
-
+	/*Spawn paramaters*/
 	FActorSpawnParameters spawnParams;
 	spawnParams.Owner;
 
-	ACreatureAIController* SpawnController = GetWorld()->SpawnActor<ACreatureAIController>(FVector(0.f), FRotator(0.f), spawnParams);
-
-	SpawnController->SenseSight->PeripheralVisionAngleDegrees = CData.PeripheralVision;
-
-	Controller = SpawnController;
-
+	/*Controller*/
+	Controller = GetWorld()->SpawnActor<ACreatureAIController>(FVector(0.f), FRotator(0.f), spawnParams);
 	Controller->Possess(this);
 }
 
@@ -54,8 +41,18 @@ void ACreatureBase::TakeDamage(int dmgAmount)
 	else {
 		Cast<ACreatureAIController>(GetController())->BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Alerted);
 
-		Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = CreatureData.runSpeed / (CreatureData.maxHealth / Health);
+		Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = RunSpeed / (MaxHealth / Health);
 	}
+}
+
+void ACreatureBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+	Playerptr = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+
+	if (FVector::Distance(GetActorLocation(), Playerptr->GetActorLocation()) > 7000 && !WasRecentlyRendered(1.f)) 
+		SetLifeSpan(0.1f);
 }
 
 void ACreatureBase::Die()
