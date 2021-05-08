@@ -8,8 +8,7 @@ UENUM(BlueprintType)
 enum ECreatureNames {
 	Needles		UMETA(DisplayName = "Needles"),
 	Sloth		UMETA(DisplayName = "Sloth"),
-	MiniWyvern	UMETA(DisplayName = "MiniWyvern"),
-	Max			UMETA(DisplayName = "Max")
+	MiniWyvern	UMETA(DisplayName = "MiniWyvern")
 };
 
 UENUM(BlueprintType)
@@ -18,4 +17,10 @@ enum EBehaviour {
 	Moving		UMETA(DisplayName = "Moving"),
 	Alerted		UMETA(DisplayName = "Alerted"),
 	Dead		UMETA(DisplayName = "Dead"),
+};
+
+UENUM(BlueprintType)
+enum ESociality {
+	Loner		UMETA(DisplayName = "Loner"),
+	Pack		UMETA(DisplayName = "Pack")
 };
