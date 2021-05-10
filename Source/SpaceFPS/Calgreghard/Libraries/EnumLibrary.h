@@ -25,3 +25,10 @@ enum ESociality {
 	Loner		UMETA(DisplayName = "Loner"),
 	Pack		UMETA(DisplayName = "Pack")
 };
+
+UENUM(BlueprintType) 
+enum EJumpHeight {
+	ShortJump	UMETA(DisplayName = "Short Jump"),
+	MediumJump	UMETA(DisplayName = "Medium Jump"),
+	LongJump	UMETA(DisplayName = "Long Jump")
+};

@@ -22,11 +22,11 @@ UAI_NavQueryFilter::UAI_NavQueryFilter() {
 	ObstacleArea.AreaClass = UNavArea_Obstacle::StaticClass();
 	WaterArea.AreaClass = UNavArea_Water::StaticClass();
 
-	Areas.Add(DefaultArea);
-	Areas.Add(LowHeightArea);
-	Areas.Add(NullArea);
-	Areas.Add(ObstacleArea);
-	Areas.Add(WaterArea);
+	Areas.Add(DefaultArea); //0
+	Areas.Add(LowHeightArea); //1
+	Areas.Add(NullArea); //2
+	Areas.Add(ObstacleArea); //3
+	Areas.Add(WaterArea); //4
 
 	Areas[2].EnteringCostOverride = 999;
 }

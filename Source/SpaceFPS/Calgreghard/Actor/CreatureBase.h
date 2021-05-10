@@ -35,7 +35,9 @@ public:
 		float WalkSpeed = 400.f;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		float RunSpeed = 800.f;
-
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		TEnumAsByte<EJumpHeight> JumpCapabilities = EJumpHeight::ShortJump;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		TEnumAsByte<ESociality> Sociality = ESociality::Loner;
 

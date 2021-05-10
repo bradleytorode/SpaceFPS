@@ -30,6 +30,8 @@ ASloth::ASloth()
 	RunSpeed = 400.f;
 
 	Sociality = ESociality::Pack;
+	JumpCapabilities = EJumpHeight::LongJump;
+
 	GroupSize = FVector2D(3.f, 5.f);
 
 	NavQuery = UNeedlerQueryFilter::StaticClass(); //FINISH THIS, Make query filter for sloth

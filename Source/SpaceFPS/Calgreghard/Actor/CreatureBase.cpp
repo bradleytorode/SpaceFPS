@@ -28,6 +28,8 @@ void ACreatureBase::BeginPlay()
 	Controller->Possess(this);
 
 	Cast<ACreatureAIController>(Controller)->BBComp->SetValueAsObject(TEXT("PlayerKey"), UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = WalkSpeed;
 }
 
 void ACreatureBase::TakeDamage(int dmgAmount)
