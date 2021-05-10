@@ -16,7 +16,8 @@ enum EBehaviour {
 	Idle		UMETA(DisplayName = "Idle"),
 	Moving		UMETA(DisplayName = "Moving"),
 	Alerted		UMETA(DisplayName = "Alerted"),
-	Dead		UMETA(DisplayName = "Dead"),
+	Attacking	UMETA(DisplayName = "Attacking"),
+	Dead		UMETA(DisplayName = "Dead")
 };
 
 UENUM(BlueprintType)

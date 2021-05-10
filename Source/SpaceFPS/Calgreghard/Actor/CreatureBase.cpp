@@ -26,6 +26,8 @@ void ACreatureBase::BeginPlay()
 	/*Controller*/
 	Controller = GetWorld()->SpawnActor<ACreatureAIController>(FVector(0.f), FRotator(0.f), spawnParams);
 	Controller->Possess(this);
+
+	Cast<ACreatureAIController>(Controller)->BBComp->SetValueAsObject(TEXT("PlayerKey"), UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
 void ACreatureBase::TakeDamage(int dmgAmount)
