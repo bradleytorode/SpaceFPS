@@ -10,6 +10,33 @@
 ADenSpawner::ADenSpawner() 
 	: Super() {
 
+	/*Spawn area*/
+	SpawnArea = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SpawnArea"));
+	SpawnArea->SetupAttachment(Root);
+
+	ConstructorHelpers::FObjectFinder<UStaticMesh> SpawnAreaSM(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
+	if (SpawnAreaSM.Succeeded()) {
+		SpawnArea->SetStaticMesh(SpawnAreaSM.Object);
+	}
+
+	//Set default variables
+	SpawnArea->SetCollisionProfileName(TEXT("NoCollision"), false);
+	SpawnArea->bHiddenInGame = true;
+
+	//Set material
+	ConstructorHelpers::FObjectFinder<UMaterialInstance> SpawnAreaMat(TEXT("MaterialInstanceConstant'/Game/CalgreghardStuff/Assets/Objects/TranslusentMat/MI_Translucent.MI_Translucent'"));
+	if (SpawnAreaMat.Succeeded()) {
+		SpawnArea->SetMaterial(0, SpawnAreaMat.Object);
+	}
+
+	/*Trigger zone*/
+	TriggerZone = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TriggerZone"));
+	TriggerZone->SetupAttachment(Root);
+
+	TriggerZone->SetVisibility(false);
+	TriggerZone->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	TriggerZone->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
+
 	TriggerZone->OnComponentBeginOverlap.AddDynamic(this, &ADenSpawner::EnterTriggerArea);
 }
 

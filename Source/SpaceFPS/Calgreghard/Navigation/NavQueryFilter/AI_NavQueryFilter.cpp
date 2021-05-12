@@ -7,6 +7,7 @@
 #include "NavAreas/NavArea_Null.h"
 #include "NavAreas/NavArea_Obstacle.h"
 #include "SpaceFPS/Calgreghard/Navigation/NavArea/NavArea_Water.h"
+#include "SpaceFPS/Calgreghard/Navigation/NavArea/NavArea_FluidGround.h"
 
 UAI_NavQueryFilter::UAI_NavQueryFilter() {
 
@@ -15,18 +16,22 @@ UAI_NavQueryFilter::UAI_NavQueryFilter() {
 	FNavigationFilterArea NullArea;
 	FNavigationFilterArea ObstacleArea;
 	FNavigationFilterArea WaterArea;
+	FNavigationFilterArea FluidGroundArea;
+
 
 	DefaultArea.AreaClass = UNavArea_Default::StaticClass();
 	LowHeightArea.AreaClass = UNavArea_LowHeight::StaticClass();
 	NullArea.AreaClass = UNavArea_Null::StaticClass();
 	ObstacleArea.AreaClass = UNavArea_Obstacle::StaticClass();
 	WaterArea.AreaClass = UNavArea_Water::StaticClass();
+	FluidGroundArea.AreaClass = UNavArea_FluidGround::StaticClass();
 
 	Areas.Add(DefaultArea); //0
 	Areas.Add(LowHeightArea); //1
 	Areas.Add(NullArea); //2
 	Areas.Add(ObstacleArea); //3
 	Areas.Add(WaterArea); //4
+	Areas.Add(FluidGroundArea); //5
 
 	Areas[2].EnteringCostOverride = 999;
 }

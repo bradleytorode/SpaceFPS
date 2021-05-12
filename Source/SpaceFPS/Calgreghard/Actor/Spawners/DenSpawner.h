@@ -15,12 +15,19 @@ class SPACEFPS_API ADenSpawner : public ACreatureSpawner
 	GENERATED_BODY()
 
 public:
+	/*Components*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UStaticMeshComponent* SpawnArea;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UStaticMeshComponent* TriggerZone;
+
+	/*Variables*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spawn variables")
 		class TSubclassOf<ACreatureBase> SpawnCreatureClass;
 	
 public:
 	ADenSpawner();
-
+	
 	virtual void SpawnCreatures() override;
 
 	UFUNCTION()

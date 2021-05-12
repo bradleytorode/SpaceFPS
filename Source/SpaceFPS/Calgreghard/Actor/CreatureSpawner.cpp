@@ -9,44 +9,12 @@
 // Sets default values
 ACreatureSpawner::ACreatureSpawner()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	//Default never tick
+	this->SetActorTickEnabled(false);
+	PrimaryActorTick.bStartWithTickEnabled = false;
 
 	Root = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Root"));
 	Root->SetupAttachment(RootComponent);
-
-	/*Spawn area*/
-	SpawnArea = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SpawnArea"));
-	SpawnArea->SetupAttachment(Root);
-
-	ConstructorHelpers::FObjectFinder<UStaticMesh> SpawnAreaSM(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
-	if (SpawnAreaSM.Succeeded()) {
-		SpawnArea->SetStaticMesh(SpawnAreaSM.Object);
-	}
-
-	//Set default variables
-	SpawnArea->SetCollisionProfileName(TEXT("NoCollision"), false);
-	SpawnArea->bHiddenInGame = true;
-
-	//Set material
-	ConstructorHelpers::FObjectFinder<UMaterialInstance> SpawnAreaMat(TEXT("MaterialInstanceConstant'/Game/CalgreghardStuff/Assets/Objects/TranslusentMat/MI_Translucent.MI_Translucent'"));
-	if (SpawnAreaMat.Succeeded()) {
-		SpawnArea->SetMaterial(0, SpawnAreaMat.Object);
-	}
-
-	/*Trigger zone*/
-	TriggerZone = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TriggerZone"));
-	TriggerZone->SetupAttachment(Root);
-
-	TriggerZone->SetVisibility(false);
-	TriggerZone->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-	TriggerZone->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
-
-	/*Creatures database*/
-	ConstructorHelpers::FObjectFinder<UDataTable> CreatureDT(TEXT("DataTable'/Game/CalgreghardStuff/Database/DT_Creatures.DT_Creatures'"));
-	if (CreatureDT.Succeeded()) {
-		DTReference = CreatureDT.Object;
-	}
 
 	/*Spawning EQS*/
 	ConstructorHelpers::FObjectFinder<UEnvQuery> SpawnQuery(TEXT("EnvQuery'/Game/CalgreghardStuff/AI/EQS/Queries/EQS_SpawnOutOfSight.EQS_SpawnOutOfSight'"));
@@ -81,9 +49,9 @@ void ACreatureSpawner::BeginPlay()
 }
 
 // Called every frame
-void ACreatureSpawner::Tick(float DeltaTime)
+void ACreatureSpawner::Tick(float DeltaSeconds)
 {
-	Super::Tick(DeltaTime);
+	Super::Tick(DeltaSeconds);
 
 }
 

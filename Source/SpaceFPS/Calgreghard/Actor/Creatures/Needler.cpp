@@ -30,7 +30,9 @@ ANeedler::ANeedler()
 	IdleLimit = 2;
 	WalkSpeed = 150.f;
 	RunSpeed = 700.f;
-
+	
+	Predators.Add(APlayerCharacter::StaticClass());
+	
 	NavQuery = UNeedlerQueryFilter::StaticClass();
 
 	//Set movement component speed

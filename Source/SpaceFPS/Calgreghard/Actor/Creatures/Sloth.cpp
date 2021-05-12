@@ -4,12 +4,12 @@
 #include "Sloth.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SpaceFPS/Calgreghard/Actor/CreatureAIController.h"
-#include "SpaceFPS/Calgreghard/Navigation/NavQueryFilter/NeedlerQueryFilter.h"
+#include "SpaceFPS/Calgreghard/Navigation/NavQueryFilter/SlothQueryFilter.h"
 
 ASloth::ASloth()
 	: Super() {
 	/*Object assigning*/
-	ConstructorHelpers::FObjectFinder<USkeletalMesh>SM(TEXT("SkeletalMesh'/Game/CalgreghardStuff/Assets/Creatures/SLoth/sloth.sloth'"));
+	ConstructorHelpers::FObjectFinder<USkeletalMesh>SM(TEXT("SkeletalMesh'/Game/CalgreghardStuff/Assets/Creatures/Sloth/sloth.sloth'"));
 	if (SM.Succeeded()) {
 		GetMesh()->SetSkeletalMesh(SM.Object);
 	}
@@ -29,12 +29,14 @@ ASloth::ASloth()
 	WalkSpeed = 150.f;
 	RunSpeed = 400.f;
 
+	Predators.Add(APlayerCharacter::StaticClass());
+
 	Sociality = ESociality::Pack;
 	JumpCapabilities = EJumpHeight::LongJump;
 
 	GroupSize = FVector2D(3.f, 5.f);
 
-	NavQuery = UNeedlerQueryFilter::StaticClass(); //FINISH THIS, Make query filter for sloth
+	NavQuery = USlothQueryFilter::StaticClass(); //FINISH THIS, Make query filter for sloth
 
 	//Set movement component speed
 	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = WalkSpeed;

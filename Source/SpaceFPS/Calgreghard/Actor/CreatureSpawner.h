@@ -21,10 +21,6 @@ public:
 	/*Components*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		UStaticMeshComponent* Root;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		UStaticMeshComponent* SpawnArea;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		UStaticMeshComponent* TriggerZone;
 
 	/*Private variables*/
 	UPROPERTY()
@@ -59,6 +55,6 @@ protected:
 
 public:	
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 };

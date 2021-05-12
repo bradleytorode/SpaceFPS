@@ -16,5 +16,8 @@ class SPACEFPS_API ABarghest : public ACreatureBase
 
 public:
 	ABarghest();
+
+protected:
+	virtual void BeginPlay();
 	
 };

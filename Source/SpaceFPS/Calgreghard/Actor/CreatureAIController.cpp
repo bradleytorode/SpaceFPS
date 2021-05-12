@@ -16,6 +16,7 @@ ACreatureAIController::ACreatureAIController()
 	//Make ai perception components
 	SenseComp = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("SenseComp"));
 	SenseSight = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SenseSight"));
+	SenseHearing = CreateDefaultSubobject<UAISenseConfig_Hearing>(TEXT("SenseHearing"));
 
 	//Set perception
 	SetPerceptionComponent(*SenseComp);
@@ -24,6 +25,9 @@ ACreatureAIController::ACreatureAIController()
 	SenseSight->DetectionByAffiliation.bDetectEnemies = true;
 	SenseSight->DetectionByAffiliation.bDetectFriendlies = true;
 	SenseSight->DetectionByAffiliation.bDetectNeutrals = true;
+	SenseHearing->DetectionByAffiliation.bDetectEnemies = true;
+	SenseHearing->DetectionByAffiliation.bDetectFriendlies = true;
+	SenseHearing->DetectionByAffiliation.bDetectNeutrals = true;
 
 	//AI perception variables setting
 	SenseComp->SetDominantSense(*SenseSight->GetSenseImplementation());
@@ -31,6 +35,7 @@ ACreatureAIController::ACreatureAIController()
 
 	//Configure senses
 	SenseComp->ConfigureSense(*SenseSight);
+	SenseComp->ConfigureSense(*SenseHearing);
 
 }
 
@@ -52,22 +57,29 @@ void ACreatureAIController::OnPossess(APawn* InPawn) {
 
 void ACreatureAIController::OnPawnDetected(const TArray<AActor*>& DetectedPawns)
 {
-	for (AActor * actor : DetectedPawns) {
-		ACharacter* character = Cast<ACharacter>(actor);
+	for (AActor* DetectedPawn : DetectedPawns) {
 
-		/*FActorPerceptionBlueprintInfo PerceptionInfo;
+		ACharacter* DetectedCharacter = Cast<ACharacter>(DetectedPawn);
 
-		SenseComp->GetActorsPerception(character, PerceptionInfo);
+		if (Cast<APlayerCharacter>(DetectedCharacter)) {
+			if (ControlledCreature->Predators.Find(DetectedCharacter->GetClass())) {
+				BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Alerted);
+				BBComp->SetValueAsObject(TEXT("ActivePredatorKey"), DetectedCharacter);
+				BBComp->SetValueAsVector(TEXT("LastSeenLocationKey"), DetectedCharacter->GetActorLocation());
 
-		FAIStimulus AIStim = PerceptionInfo.LastSensedStimuli[0];
+				Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->RunSpeed;
 
-		AIStim.GetAge()*/
+				break;
+			}
+			else if (ControlledCreature->Prey.Find(DetectedCharacter->GetClass())) {
+				BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Attacking);
+				BBComp->SetValueAsObject(TEXT("ActivePreyKey"), DetectedCharacter);
+				BBComp->SetValueAsVector(TEXT("LastSeenLocationKey"), DetectedCharacter->GetActorLocation());
 
-		if (Cast<APlayerCharacter>(character)) {
-			BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Alerted);
-			BBComp->SetValueAsVector(TEXT("LastSeenLocationKey"), character->GetActorLocation());
+				Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->RunSpeed;
 
-			Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->RunSpeed;
+				break;
+			}
 		}
 	}
 }

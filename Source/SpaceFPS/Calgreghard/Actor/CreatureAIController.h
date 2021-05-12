@@ -8,6 +8,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
+#include "Perception/AISenseConfig_Hearing.h"
 #include "SpaceFPS/Calgreghard/Actor/CreatureBase.h"
 #include "CreatureAIController.generated.h"
 
@@ -28,6 +29,8 @@ public:
 	//Perception configs
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UAISenseConfig_Sight* SenseSight;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UAISenseConfig_Hearing* SenseHearing;
 
 	ACreatureBase* ControlledCreature;
 
@@ -37,7 +40,7 @@ public:
 	virtual void OnPossess(APawn* InPawn) override;
 
 	UFUNCTION()
-	void OnPawnDetected(const TArray<AActor*>& DetectedPawns);
+	virtual void OnPawnDetected(const TArray<AActor*>& DetectedPawns);
 
 	virtual void GetActorEyesViewPoint(FVector& out_Location, FRotator& out_Rotation) const override;
 };

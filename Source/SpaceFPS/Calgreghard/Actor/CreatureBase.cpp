@@ -8,11 +8,23 @@
 
 ACreatureBase::ACreatureBase()
 {
+	/*Component spawn*/ 
+	//Damage Box
+	DamageBox = CreateDefaultSubobject<USphereComponent>(TEXT("DamageBox"));
+	DamageBox->SetupAttachment(GetMesh(), TEXT("DamageArea"));
+	
+	//Inventory
+	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
+	Inventory->capacity = 1;
+
+	/*Mesh configuring*/
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 	GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 
 	FActorSpawnParameters spawnParams;
 	spawnParams.Owner = this;
+
+	DamageBox->OnComponentBeginOverlap.AddDynamic(this, &ACreatureBase::DoDamage);
 }
 
 void ACreatureBase::BeginPlay()
@@ -64,4 +76,14 @@ void ACreatureBase::Die()
 	Cast<ACreatureAIController>(GetController())->SenseComp->OnPerceptionUpdated.Clear();
 
 	Cast<ACreatureAIController>(GetController())->BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Dead);
+}
+
+void ACreatureBase::DoDamage(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (Cast<APlayerCharacter>(OtherActor) && Cast<ACreatureAIController>(GetController())->BBComp->GetValueAsEnum(TEXT("BehaviourKey")) == EBehaviour::Attacking) {
+		//Cast<APlayerCharacter>(OtherActor)->TakeDamage(Damage);
+	}
+	else if (Cast<ACreatureBase>(OtherActor) && Prey.Find(OtherActor->GetClass()) != -1 && Cast<ACreatureAIController>(GetController())->BBComp->GetValueAsEnum(TEXT("BehaviourKey")) == EBehaviour::Attacking) {
+		Cast<ACreatureBase>(OtherActor)->TakeDamage(Damage);
+	}
 }
