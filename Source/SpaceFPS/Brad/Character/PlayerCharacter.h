@@ -59,6 +59,9 @@ protected:
 
 	void PickupItem();
 
+	UFUNCTION(BlueprintNativeEvent)
+	void TakeDamage(int HealthDamage);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

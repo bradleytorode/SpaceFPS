@@ -138,3 +138,8 @@ void APlayerCharacter::PickupItem()
 {
 	//GetCapsuleComponent()->BeginComponentOverlap(OverlapInfo,
 }
+
+void APlayerCharacter::TakeDamage_Implementation(int HealthDamage)
+{
+}
+
