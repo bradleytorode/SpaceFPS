@@ -59,12 +59,14 @@ protected:
 
 	void PickupItem();
 
-	UFUNCTION(BlueprintNativeEvent)
-		void TakeDamage(int DamageAmount);
+	
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	UFUNCTION(BlueprintNativeEvent)
+		void DamageTaken(int DamageAmount);
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
