@@ -30,13 +30,13 @@ public:
 
 	/*Variables*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		int Health = 100;
+		int Health = 10;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		int MaxHealth = 100;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		int IdleLimit = 1;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		int Damage = 10.f;
+		int Damage = 3;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		float WalkSpeed = 400.f;
