@@ -61,25 +61,23 @@ void ACreatureAIController::OnPawnDetected(const TArray<AActor*>& DetectedPawns)
 
 		ACharacter* DetectedCharacter = Cast<ACharacter>(DetectedPawn);
 
-		if (Cast<APlayerCharacter>(DetectedCharacter)) {
-			if (ControlledCreature->Predators.Find(DetectedCharacter->GetClass())) {
-				BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Alerted);
-				BBComp->SetValueAsObject(TEXT("ActivePredatorKey"), DetectedCharacter);
-				BBComp->SetValueAsVector(TEXT("LastSeenLocationKey"), DetectedCharacter->GetActorLocation());
+		if (ControlledCreature->Predators.Find(DetectedCharacter->GetClass()) != -1 || ControlledCreature->Predators.Find(DetectedCharacter->GetClass()->GetSuperClass()) != -1) {
+			BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Alerted);
+			BBComp->SetValueAsObject(TEXT("ActivePredatorKey"), DetectedCharacter);
+			BBComp->SetValueAsVector(TEXT("LastSeenLocationKey"), DetectedCharacter->GetActorLocation());
 
-				Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->RunSpeed;
+			Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->RunSpeed;
 
-				break;
-			}
-			else if (ControlledCreature->Prey.Find(DetectedCharacter->GetClass())) {
-				BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Attacking);
-				BBComp->SetValueAsObject(TEXT("ActivePreyKey"), DetectedCharacter);
-				BBComp->SetValueAsVector(TEXT("LastSeenLocationKey"), DetectedCharacter->GetActorLocation());
+			break;
+		}
+		else if (ControlledCreature->Prey.Find(DetectedCharacter->GetClass()) != -1 || ControlledCreature->Prey.Find(DetectedCharacter->GetClass()->GetSuperClass()) != -1) {
+			BBComp->SetValueAsEnum(TEXT("BehaviourKey"), EBehaviour::Attacking);
+			BBComp->SetValueAsObject(TEXT("ActivePreyKey"), DetectedCharacter);
+			BBComp->SetValueAsVector(TEXT("LastSeenLocationKey"), DetectedCharacter->GetActorLocation());
 
-				Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->RunSpeed;
+			Cast<UCharacterMovementComponent>(ControlledCreature->GetMovementComponent())->MaxWalkSpeed = ControlledCreature->RunSpeed;
 
-				break;
-			}
+			break;
 		}
 	}
 }

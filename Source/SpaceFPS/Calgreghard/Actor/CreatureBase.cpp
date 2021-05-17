@@ -81,7 +81,7 @@ void ACreatureBase::Die()
 void ACreatureBase::DoDamage(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (Cast<APlayerCharacter>(OtherActor) && Cast<ACreatureAIController>(GetController())->BBComp->GetValueAsEnum(TEXT("BehaviourKey")) == EBehaviour::Attacking) {
-		//Cast<APlayerCharacter>(OtherActor)->FUNCNAME(Damage);
+		Cast<APlayerCharacter>(OtherActor)->DamageTaken(Damage);
 	}
 	else if (Cast<ACreatureBase>(OtherActor) && Prey.Find(OtherActor->GetClass()) != -1 && Cast<ACreatureAIController>(GetController())->BBComp->GetValueAsEnum(TEXT("BehaviourKey")) == EBehaviour::Attacking) {
 		Cast<ACreatureBase>(OtherActor)->TakeDamage(Damage);

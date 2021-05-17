@@ -36,7 +36,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		int IdleLimit = 1;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		int Damage = 10.f;
+		int Damage = 3;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		float WalkSpeed = 400.f;
