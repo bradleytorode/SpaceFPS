@@ -30,7 +30,7 @@ public:
 
 	/*Variables*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		int Health = 100;
+		int Health = 10;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		int MaxHealth = 100;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
