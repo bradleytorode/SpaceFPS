@@ -25,6 +25,27 @@ ANeedler::ANeedler()
 		BT = BTRef.Object;
 	}
 
+	//Materials
+	ConstructorHelpers::FObjectFinder<UMaterial>R16Ref(TEXT("Material'/Game/CalgreghardStuff/Assets/Creatures/Needles/needles_fbm/M_Needler_R1_6.M_Needler_R1_6'"));
+	if (R16Ref.Succeeded()) {
+		R16 = R16Ref.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UMaterial>R1Ref(TEXT("Material'/Game/CalgreghardStuff/Assets/Creatures/Needles/needles_fbm/M_Needler_R1.M_Needler_R1'"));
+	if (R1Ref.Succeeded()) {
+		R1 = R1Ref.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UMaterial>SmoothRef(TEXT("Material'/Game/CalgreghardStuff/Assets/Creatures/Needles/needles_fbm/M_Needler_Smooth.M_Needler_Smooth'"));
+	if (SmoothRef.Succeeded()) {
+		Smooth = SmoothRef.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UMaterial>RoughRef(TEXT("Material'/Game/CalgreghardStuff/Assets/Creatures/Needles/needles_fbm/M_Needler_Rough.M_Needler_Rough'"));
+	if (RoughRef.Succeeded()) {
+		Rough = RoughRef.Object;
+	}
+
 	/*Set Variables*/
 	Health = MaxHealth = 100.f;
 	IdleLimit = 2;
@@ -37,6 +58,30 @@ ANeedler::ANeedler()
 
 	//Set movement component speed
 	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = WalkSpeed;
+}
+
+void ANeedler::TakeDamage(int dmgAmount)
+{
+	Super::TakeDamage(dmgAmount);
+
+	float healthPercentage = Health / MaxHealth;
+
+	if (healthPercentage < 0.3f) {
+		GetMesh()->SetMaterial(0, Smooth);
+	}
+	else if (0.3f <= healthPercentage && healthPercentage < 0.5f) {
+		GetMesh()->SetMaterial(0, R1);
+	}
+	else {
+		GetMesh()->SetMaterial(0, R16);
+	}
+}
+
+void ANeedler::Die()
+{
+	Super::Die();
+
+	GetMesh()->SetMaterial(0, Rough);
 }
 
 void ANeedler::BeginPlay()

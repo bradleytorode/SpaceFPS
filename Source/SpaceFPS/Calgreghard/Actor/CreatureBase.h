@@ -71,12 +71,12 @@ public:
 
 	/*Functions*/
 	UFUNCTION(BlueprintCallable)
-		void TakeDamage(int dmgAmount);
+		virtual void TakeDamage(int dmgAmount);
 
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
-		void Die();
+		virtual void Die();
 
 	UFUNCTION(BlueprintCallable)
 		void DoDamage(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
