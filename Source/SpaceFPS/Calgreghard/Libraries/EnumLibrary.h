@@ -5,13 +5,6 @@
 #include "EnumLibrary.generated.h"
 
 UENUM(BlueprintType)
-enum ECreatureNames {
-	Needles		UMETA(DisplayName = "Needles"),
-	Sloth		UMETA(DisplayName = "Sloth"),
-	MiniWyvern	UMETA(DisplayName = "MiniWyvern")
-};
-
-UENUM(BlueprintType)
 enum EBehaviour {
 	Idle		UMETA(DisplayName = "Idle"),
 	Moving		UMETA(DisplayName = "Moving"),
@@ -28,6 +21,7 @@ enum ESociality {
 
 UENUM(BlueprintType) 
 enum EJumpHeight {
+	NoJump		UMETA(DisplayName = "No Jump"),
 	ShortJump	UMETA(DisplayName = "Short Jump"),
 	MediumJump	UMETA(DisplayName = "Medium Jump"),
 	LongJump	UMETA(DisplayName = "Long Jump")
