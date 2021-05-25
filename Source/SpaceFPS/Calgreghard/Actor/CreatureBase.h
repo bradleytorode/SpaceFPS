@@ -71,7 +71,7 @@ public:
 
 	/*Functions*/
 	UFUNCTION(BlueprintCallable)
-		virtual void TakeDamage(int dmgAmount);
+		virtual void DamageTaken(int dmgAmount);
 
 	virtual void Tick(float DeltaTime) override;
 

@@ -59,8 +59,9 @@ protected:
 
 	void PickupItem();
 
+public:
 	UFUNCTION(BlueprintNativeEvent)
-	void TakeDamage(int HealthDamage);
+	void DamageTaken(int HealthDamage);
 
 public:	
 	// Called every frame

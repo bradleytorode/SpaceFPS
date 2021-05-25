@@ -44,7 +44,7 @@ void ACreatureBase::BeginPlay()
 	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = WalkSpeed;
 }
 
-void ACreatureBase::TakeDamage(int dmgAmount)
+void ACreatureBase::DamageTaken(int dmgAmount)
 {
 	if (dmgAmount <= Health)
 		Health -= dmgAmount;
@@ -81,9 +81,9 @@ void ACreatureBase::Die()
 void ACreatureBase::DoDamage(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (Cast<APlayerCharacter>(OtherActor) && Cast<ACreatureAIController>(GetController())->BBComp->GetValueAsEnum(TEXT("BehaviourKey")) == EBehaviour::Attacking) {
-		Cast<APlayerCharacter>(OtherActor)->TakeDamage(Damage);
+		Cast<APlayerCharacter>(OtherActor)->DamageTaken(Damage);
 	}
 	else if (Cast<ACreatureBase>(OtherActor) && Prey.Find(OtherActor->GetClass()) != -1 && Cast<ACreatureAIController>(GetController())->BBComp->GetValueAsEnum(TEXT("BehaviourKey")) == EBehaviour::Attacking) {
-		Cast<ACreatureBase>(OtherActor)->TakeDamage(Damage);
+		Cast<ACreatureBase>(OtherActor)->DamageTaken(Damage);
 	}
 }

@@ -7,7 +7,6 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -139,7 +138,7 @@ void APlayerCharacter::PickupItem()
 	//GetCapsuleComponent()->BeginComponentOverlap(OverlapInfo,
 }
 
-void APlayerCharacter::TakeDamage_Implementation(int HealthDamage)
+void APlayerCharacter::DamageTaken_Implementation(int HealthDamage)
 {
 }
 

@@ -6,7 +6,6 @@
 #include "SpaceFPS/Brad/Character/PlayerCharacter.h"
 #include "SpaceFPS/Calgreghard/Actor/CreatureAIController.h"
 
-
 ADenSpawner::ADenSpawner() 
 	: Super() {
 
@@ -102,7 +101,6 @@ void ADenSpawner::BeginPlay()
 
 	/*Set trigger zone variables*/
 	TriggerZone->SetStaticMesh(SpawnArea->GetStaticMesh());
-	TriggerZone->GetStaticMesh()->SetMaterial(0, SpawnArea->GetMaterial(0));
 	TriggerZone->SetRelativeScale3D(FVector(SpawnArea->GetRelativeScale3D().X * 1.5f));
 
 }

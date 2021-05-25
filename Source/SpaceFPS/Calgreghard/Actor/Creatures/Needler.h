@@ -20,7 +20,7 @@ public:
 public:
 	ANeedler();
 
-	virtual void TakeDamage(int dmgAmount) override;
+	virtual void DamageTaken(int dmgAmount) override;
 
 	virtual void Die() override;
 

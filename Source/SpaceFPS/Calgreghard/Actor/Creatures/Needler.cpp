@@ -60,9 +60,9 @@ ANeedler::ANeedler()
 	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = WalkSpeed;
 }
 
-void ANeedler::TakeDamage(int dmgAmount)
+void ANeedler::DamageTaken(int dmgAmount)
 {
-	Super::TakeDamage(dmgAmount);
+	Super::DamageTaken(dmgAmount);
 
 	float healthPercentage = Health / MaxHealth;
 
