@@ -25,8 +25,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	class USpringArmComponent* SpringArm;
 
-	UPROPERTY(VisibleAnywhere, Category = Mesh)
-	class UStaticMeshComponent* Weapon;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
 	class UInventoryComponent* Inventory;

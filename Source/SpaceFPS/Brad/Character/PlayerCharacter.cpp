@@ -41,12 +41,7 @@ APlayerCharacter::APlayerCharacter()
 	BaseTurnRate = 45.0f;
 	BaseLookUpRate = 45.0f;
 
-	//Setting up a skeletal mesh for a weapon implemented later on.
-	Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon"));
-	Weapon->SetOnlyOwnerSee(true);    // only the owning player will see this mesh
-	Weapon->bCastDynamicShadow = false;
-	Weapon->CastShadow = false;
-	//Weapon->SetupAttachment("PlayerHandSocket");
+
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 
