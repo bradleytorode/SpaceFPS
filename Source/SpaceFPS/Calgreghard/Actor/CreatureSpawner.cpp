@@ -28,6 +28,7 @@ ACreatureSpawner::ACreatureSpawner()
 
 void ACreatureSpawner::SpawnCreatures()
 {
+
 }
 
 void ACreatureSpawner::EQSResult(TSharedPtr<FEnvQueryResult> results)

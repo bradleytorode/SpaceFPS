@@ -25,6 +25,8 @@ AAreaSpawner::AAreaSpawner()
 	ConstructorHelpers::FObjectFinder<UMaterialInstance> SpawnAreaMat(TEXT("MaterialInstanceConstant'/Game/CalgreghardStuff/Assets/Objects/TranslusentMat/MI_Translucent.MI_Translucent'"));
 	if (SpawnAreaMat.Succeeded()) {
 		SpawnAndTriggerArea->SetMaterial(0, SpawnAreaMat.Object);
+		SpawnAndTriggerArea->bHiddenInGame = true;
+
 	}
 
 	//Functionality
@@ -96,7 +98,10 @@ void AAreaSpawner::SpawnCreatures()
 				Cast<ACreatureAIController>(Creature->Controller)->BBComp->SetValueAsObject(TEXT("AlphaCreatureKey"), Cast<UObject>(Alpha));
 			}
 		}
+
+		Creature->SetFolderPath(TEXT("Creatures/"));
 	}
+
 }
 
 void AAreaSpawner::EnterArea(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

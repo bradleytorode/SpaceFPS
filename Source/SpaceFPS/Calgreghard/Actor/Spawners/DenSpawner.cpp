@@ -83,6 +83,8 @@ void ADenSpawner::SpawnCreatures() {
 				Cast<ACreatureAIController>(Creature->Controller)->BBComp->SetValueAsObject(TEXT("AlphaCreatureKey"), Cast<UObject>(Alpha));
 			}
 		}
+
+		Creature->SetFolderPath(TEXT("Creatures/"));
 	}
 }
 

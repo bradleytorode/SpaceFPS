@@ -9,7 +9,7 @@
 #include "SpaceFPS/Calgreghard/Actor/CreatureBase.h"
 #include "AreaSpawner.generated.h"
 
-UCLASS(Abstract)
+UCLASS()
 class SPACEFPS_API AAreaSpawner : public ACreatureSpawner
 {
 	GENERATED_BODY()
