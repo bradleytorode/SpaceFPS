@@ -10,6 +10,7 @@
 #include "EnvironmentQuery/EnvQuery.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
 #include "Templates/SharedPointer.h"
+#include "NavigationSystem.h"
 #include "CreatureSpawner.generated.h"
 
 UCLASS(Abstract)
@@ -56,5 +57,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
+
+	FVector GetRandomPointInNavigableRadius(UObject* WorldContextObject, const FVector& Origin, float Radius, ANavigationData* NavData, TSubclassOf<UNavigationQueryFilter> FilterClass);
 
 };

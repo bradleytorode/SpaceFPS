@@ -61,11 +61,9 @@ void ADenSpawner::SpawnCreatures() {
 		FVector spawnLocation;
 
 		if (Alpha != nullptr && SpawnCreatureClass.GetDefaultObject()->Sociality == ESociality::Pack)
-			spawnLocation = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem())->GetRandomPointInNavigableRadius(
-				GetWorld(), Alpha->GetActorLocation(), spawnRadius / 2, (ANavigationData*)0, SpawnCreatureClass.GetDefaultObject()->NavQuery);
+			spawnLocation = GetRandomPointInNavigableRadius(GetWorld(), GetActorLocation(), spawnRadius, (ANavigationData*)0, SpawnCreatureClass.GetDefaultObject()->NavQuery);
 		else
-			spawnLocation = Cast<UNavigationSystemV1>(GetWorld()->GetNavigationSystem())->GetRandomPointInNavigableRadius(
-				GetWorld(), GetActorLocation(), spawnRadius, (ANavigationData*)0, SpawnCreatureClass.GetDefaultObject()->NavQuery);
+			spawnLocation = GetRandomPointInNavigableRadius(GetWorld(), GetActorLocation(), spawnRadius, (ANavigationData*)0, SpawnCreatureClass.GetDefaultObject()->NavQuery);
 
 		ACreatureBase* Creature = GetWorld()->SpawnActor<ACreatureBase>(SpawnCreatureClass, spawnLocation, FRotator(0.f, 0.f, 0.f), SpawnParams);
 
@@ -84,7 +82,7 @@ void ADenSpawner::SpawnCreatures() {
 			}
 		}
 
-		Creature->SetFolderPath(TEXT("Creatures/"));
+		//Creature->SetFolderPath(TEXT("Creatures/"));
 	}
 }
 
